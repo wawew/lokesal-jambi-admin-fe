@@ -4,20 +4,29 @@ import { store } from '../store/store';
 import { Link } from "react-router-dom";
 import '../styles/header.css';
 import { GoSignOut } from "react-icons/go";
+import logo from '../images/LOKESALtransparent.png';
+import Navbar from 'react-bootstrap/Navbar';
 
 const Header = () => {
   return (
     <Container fluid className="header">
-      <Row>
-        <Col xs="auto" md="3" className="header-image">
-          <img alt="logo" src={store.getState().logoKota} />
+      <Row style={{marginTop:'30px', marginBottom:'30px'}} className="align-items-center">
+        <Col xs="12" md="5" className="header-image">
+          <img alt="logo" src={logo} height='70'/>
         </Col>
-        <Col xs="auto" className="header-title">
-          <h1>Kota {store.getState().namaKota}</h1>
-          <p>{store.getState().tajukKota}</p>
+        <Col xs="auto">
+          <Navbar.Brand link="/">
+            <img
+              alt="logo"
+              src={store.getState().logoKota}
+              height="40"
+              className="d-inline-block align-top"
+            />
+            <span style={{marginTop:"70px"}}>{' '}Kota {store.getState().namaKota}</span>
+          </Navbar.Brand>
         </Col>
         <Col xs="auto" className="header-keluar">
-            <Link to='/masuk'><GoSignOut />Keluar</Link>
+            <Link to='/masuk' style={{color:'black'}}><GoSignOut />Keluar</Link>
         </Col>
       </Row>
     </Container>
