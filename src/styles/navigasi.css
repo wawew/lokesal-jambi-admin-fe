@@ -1,0 +1,11 @@
+.navbar-row {
+    color: gray;
+    background-color: white;
+    text-align: center;
+    width: 100%;
+}
+
+.navbar-row .col {
+    padding-left: 0;
+    padding-right: 0;
+}
