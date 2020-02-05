@@ -26,7 +26,7 @@ const Header = () => {
           </Navbar.Brand>
         </Col>
         <Col xs="auto" className="header-keluar">
-            <Link to='/masuk' style={{color:'black'}}><GoSignOut />Keluar</Link>
+            <Link to='/admin/masuk' style={{color:'black'}}><GoSignOut />Keluar</Link>
         </Col>
       </Row>
     </Container>
