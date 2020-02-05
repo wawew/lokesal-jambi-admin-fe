@@ -33,20 +33,22 @@ class Masuk extends Component {
             }
         };
         axios(req)
-        .then(function (response) {
+        .then((response) => {
             if (response.data.hasOwnProperty('token')) {
-            localStorage.setItem('adminId', response.data.id);
             localStorage.setItem('token', response.data.token);
-            this.props.history.push('/');
+            localStorage.setItem('id', response.data.id)
+            this.setState({loading: false})
+            this.props.history.push("/")
             }
             console.log('response data', response.data);
         })
-        .catch(function (error) {
+        .catch((error) => {
             swal({
                 title: "Gagal Masuk!",
                 text: "Email atau password tidak valid",
                 icon: "error"
-            });
+            })
+            this.setState({loading: false});
         });
     }
 
@@ -94,7 +96,7 @@ class Masuk extends Component {
                             id="kataSandi"
                             name="kataSandi"
                             placeholder="*************"
-                            onChange={e => this.setState({password: e.target.value})}
+                            onChange={e => this.setState({kataSandi: e.target.value})}
                         />
                         <div
                             className="masuk-tampilkanSandi"
@@ -120,12 +122,12 @@ class Masuk extends Component {
                             type="submit"
                             onClick={() => this.penangananMasuk()}
                             disabled={
-                            !this.state.regexEmail.test(this.state.email)
-                            || this.state.email === ""
-                            || this.state.kataSandi === ""
-                            ? true
-                            : false
-                            }
+                                !this.state.regexEmail.test(this.state.email)
+                                || this.state.email === ""
+                                || this.state.password === ""
+                                ? true
+                                : false
+                              }
                         >
                             Masuk
                         </Button>

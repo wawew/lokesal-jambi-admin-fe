@@ -1,5 +1,12 @@
 /* BASIC */
-  
+
+.masuk-tampilkanSandi {
+    overflow: hidden;
+    vertical-align: middle;
+    position: absolute;
+    top: 333px;
+    left: 390px;
+}
 .masuk-email:focus {
     border-color: red!important;
     box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25)!important;
@@ -277,6 +284,14 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
 }
 
 @media(max-width:767px){
+    .masuk-tampilkanSandi {
+        overflow: hidden;
+        vertical-align: middle;
+        position: absolute;
+        top: 282px;
+        left: 250px;
+    }
+
     input[type=text], input[type=password] {
       background-color: #f6f6f6;
       border: none;
