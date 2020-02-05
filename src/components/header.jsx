@@ -7,7 +7,7 @@ import { GoSignOut } from "react-icons/go";
 import logo from '../images/LOKESALtransparent.png';
 import Navbar from 'react-bootstrap/Navbar';
 
-const Header = () => {
+const Header = (props) => {
   return (
     <Container fluid className="header">
       <Row style={{marginTop:'30px', marginBottom:'30px'}} className="align-items-center">
@@ -26,7 +26,7 @@ const Header = () => {
           </Navbar.Brand>
         </Col>
         <Col xs="auto" className="header-keluar">
-            <Link to='/admin/masuk' style={{color:'black'}}><GoSignOut />Keluar</Link>
+          <Link to='/masuk' style={{color:'black'}} onClick={() => props.penangananKeluar()}><GoSignOut />Keluar</Link>
         </Col>
       </Row>
     </Container>
