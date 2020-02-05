@@ -8,7 +8,7 @@ import Header from "../components/header";
 class BerandaAdmin extends Component {
     // componentDidMount = () => {
     //     if (localStorage.getItem("token") === null) {
-    //       this.props.history.push("/admin/masuk");
+    //       this.props.history.push("/masuk");
     //     }
     // }
     render() {

@@ -43,8 +43,8 @@ class Masuk extends Component {
         })
         .catch(function (error) {
             swal({
-                title: "Admin Gagal Masuk!",
-                text: "Email atau password admin tidak valid",
+                title: "Gagal Masuk!",
+                text: "Email atau password tidak valid",
                 icon: "error"
             });
         });
@@ -55,6 +55,7 @@ class Masuk extends Component {
           this.props.history.push("/");
         }
     }
+    
     render() {
         return (
         <React.Fragment>

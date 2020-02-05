@@ -11,7 +11,7 @@ const MainRoute = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={BerandaAdmin} />
-                    <Route exact path='/admin/masuk' component={Masuk} />
+                    <Route exact path='/masuk' component={Masuk} />
                 </Switch>
             </BrowserRouter>
         </Provider>
