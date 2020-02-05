@@ -6,6 +6,11 @@ import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
 
 class BerandaAdmin extends Component {
+    // componentDidMount = () => {
+    //     if (localStorage.getItem("token") === null) {
+    //       this.props.history.push("/masuk");
+    //     }
+    // }
     render() {
         return (
         <React.Fragment>
