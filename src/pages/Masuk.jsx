@@ -124,7 +124,7 @@ class Masuk extends Component {
                             disabled={
                                 !this.state.regexEmail.test(this.state.email)
                                 || this.state.email === ""
-                                || this.state.password === ""
+                                || this.state.kataSandi === ""
                                 ? true
                                 : false
                               }

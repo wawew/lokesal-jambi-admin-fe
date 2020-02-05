@@ -13,31 +13,31 @@ const NavigasiAdmin = props => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Row className="navbar-row">
             <Col 
-              className={props.KELUHAN ? "navbar-aktif" : ""}
+              className={props.keluhan ? "navbar-aktif" : ""}
               onClick={() => props.history.push("/")}
             >
                 <h6>KELUHAN</h6>
             </Col>
             <Col 
-              className={props.BERITA ? "navbar-aktif" : ""} 
+              className={props.berita ? "navbar-aktif" : ""} 
               onClick={() => props.history.push("/berita")}
             >
               <h6>BERITA</h6>
             </Col>
             <Col 
-              className={props.PENGGUNA ? "navbar-aktif" : ""} 
+              className={props.pengguna ? "navbar-aktif" : ""} 
               onClick={() => props.history.push("/pengguna")}
             >
               <h6>PENGGUNA</h6>
             </Col>
             <Col 
-              className={props.KOMENTAR ? "navbar-aktif" : ""}
+              className={props.komentar ? "navbar-aktif" : ""}
               onClick={() => props.history.push("/komentar")}
             >
               <h6>KOMENTAR</h6>
             </Col>
             <Col 
-              className={props.KUSTOMISASI ? "navbar-aktif" : ""} 
+              className={props.kustomisasi ? "navbar-aktif" : ""} 
               onClick={() => props.history.push("/kustomisasi")}
             >
               <h6>KUSTOMISASI</h6>

@@ -10,7 +10,7 @@ import Header from "../components/header";
 
 class Pengguna extends Component {
     state = {
-        halama: 1,
+        halaman: 1,
         totalHalaman: 1,
         perHalaman: 10,
         daftarPengguna: [],
@@ -56,7 +56,7 @@ class Pengguna extends Component {
         return (
         <React.Fragment>
             <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin KELUHAN={false} BERITA={false} PENGGUNA={true} KOMENTAR={false} KUSTOMISASI={false} />
+            <NavigasiAdmin keluhan={false} berita={false} pengguna={true} komentar={false} kustomisasi={false} />
 
         </React.Fragment>
     );

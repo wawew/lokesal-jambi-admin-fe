@@ -23,7 +23,7 @@ class BerandaAdmin extends Component {
         return (
         <React.Fragment>
             <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin KELUHAN={true} BERITA={false} PENGGUNA={false} KOMENTAR={false} KUSTOMISASI={false} />
+            <NavigasiAdmin keluhan={true} berita={false} pengguna={false} komentar={false} kustomisasi={false} />
         </React.Fragment>
     );
   }
