@@ -22,11 +22,11 @@ const Header = (props) => {
               height="40"
               className="d-inline-block align-top"
             />
-            <span style={{marginTop:"70px"}}>{' '}Kota {store.getState().namaKota}</span>
+            <span style={{marginTop:"70px", color:'green'}}>{' '}Kota {store.getState().namaKota}</span>
           </Navbar.Brand>
         </Col>
         <Col xs="auto" className="header-keluar">
-          <Link to='/masuk' style={{color:'black'}} onClick={() => props.penangananKeluar()}><GoSignOut />Keluar</Link>
+          <Link to='/masuk' style={{color:'green'}} onClick={() => props.penangananKeluar()}><GoSignOut />Keluar</Link>
         </Col>
       </Row>
     </Container>

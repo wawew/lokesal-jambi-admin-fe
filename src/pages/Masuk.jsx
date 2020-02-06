@@ -16,12 +16,12 @@ class Masuk extends Component {
         // eslint-disable-next-line
         regexEmail: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/,
         tampilkanSandi: false,
-        loading: false
+        memuat: false
     }
 
     // fungsi untuk mengarahkan formulir masuk
     penangananMasuk = () => {
-        this.setState({loading: true})
+        this.setState({memuat: true})
         const req = {
             method: 'post',
             url: 'https://api.lokesal.online/admin/masuk',
@@ -37,7 +37,7 @@ class Masuk extends Component {
             if (response.data.hasOwnProperty('token')) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('id', response.data.id)
-            this.setState({loading: false})
+            this.setState({memuat: false})
             this.props.history.push("/")
             }
             console.log('response data', response.data);
@@ -48,7 +48,7 @@ class Masuk extends Component {
                 text: "Email atau password tidak valid",
                 icon: "error"
             })
-            this.setState({loading: false});
+            this.setState({memuat: false});
         });
     }
 
@@ -111,7 +111,7 @@ class Masuk extends Component {
                         </Form.Group>
                         
                         {
-                        this.state.loading
+                        this.state.memuat
                         ? <div className="masuk-spinner">
                             <Spinner animation="grow" variant="success" />
                         </div>
