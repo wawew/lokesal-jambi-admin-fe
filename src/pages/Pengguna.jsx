@@ -5,8 +5,6 @@ import { connect } from "unistore/react";
 import { actions } from "../store/store";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
-// import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-// import '../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 class Pengguna extends Component {
   state = {
@@ -40,9 +38,6 @@ class Pengguna extends Component {
         console.log("response admin pengguna", response.data);
         return response;
     })
-    // .catch(function(error) {
-    //     this.setState(loading = false );
-    // });
   }
 
   // fungsi keluar dari akun admin
@@ -57,7 +52,6 @@ class Pengguna extends Component {
       <React.Fragment>
           <Header penangananKeluar={this.penangananKeluar}/>
           <NavigasiAdmin keluhan={false} berita={false} pengguna={true} komentar={false} kustomisasi={false} />
-
       </React.Fragment>
     );
   }

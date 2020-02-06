@@ -27,16 +27,12 @@ class BerandaAdmin extends Component {
     const req = {
       method: 'get',
       url: `https://api.lokesal.online/keluhan?${
-        this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
-      }&${
-        this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
-      }`,
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      },
-      params: {
-          kota: store.getState().namaKota
-      }
+            this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
+            }&${
+                this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
+                }`,
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      params: {kota: store.getState().namaKota}
     };
 
     axios(req)
@@ -71,7 +67,7 @@ class BerandaAdmin extends Component {
       <React.Fragment>
           <Header penangananKeluar={this.penangananKeluar}/>
           <NavigasiAdmin keluhan={true} berita={false} pengguna={false} komentar={false} kustomisasi={false} />
-          <Container style={{marginTop:'50px'}}>
+          <Container style={{marginTop:'50px', marginBottom:'10px'}}>
             <h3 id='title'>Tabel Keluhan LOKESAL</h3>
             <table id='keluhan'>
               <tbody>
