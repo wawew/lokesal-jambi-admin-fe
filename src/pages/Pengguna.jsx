@@ -11,7 +11,7 @@ class Pengguna extends Component {
     halaman: 1,
     totalHalaman: 1,
     perHalaman: 10,
-    loading: false,
+    memuat: false,
     daftarPengguna: []
   }
 
@@ -30,13 +30,14 @@ class Pengguna extends Component {
     };
     console.log(req);
     axios(req)
-    .then(function(response) {
-        this.setState('daftarPengguna', response.data.daftar_pengguna);
-        this.setState('halaman', response.data.halaman)
-        this.setState('perHalaman', response.data.perHalaman)
-        this.setState('totalHalaman', response.data.totaalHalaman)
-        console.log("response admin pengguna", response.data);
-        return response;
+    .then((response) => {
+      this.setState({
+        'daftarPengguna': response.data.daftar_pengguna,
+        'halaman': response.data.halaman,
+        'perHalaman': response.data.per_halaman,
+        'totalHalaman': response.data.totaal_halaman
+      })
+      console.log('ini respons', response.data)
     })
   }
 

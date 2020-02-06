@@ -13,7 +13,7 @@ class BerandaAdmin extends Component {
   state = {
     halaman: '',
     perHalaman: '',
-    loading: false,
+    memuat: false,
     keluhan: [],
     keluhanHeader: [{ ID: '', Pelapor: '', Status: '', Dukungan: '', Diperbarui: '' }]
   }

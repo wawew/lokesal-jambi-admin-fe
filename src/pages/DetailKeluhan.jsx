@@ -5,7 +5,7 @@ import { connect } from "unistore/react";
 import { actions } from "../store/store";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 
 class DetailKeluhan extends Component {
     state = {
