@@ -1,15 +1,18 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
+import { Tr, Td } from 'react-super-responsive-table'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
 const BarisKeluhan = (props) => {
   return (
-    <tr>
-        <td>{props.id}</td>
-        <td>{props.namaDepan+' '+props.namaBelakang}</td>
-        <td>{props.status}</td>
-        <td>{props.dukungan}</td>
-        <td>{props.diperbarui}</td>
-    </tr>
+    <Tr onClick={() => props.history.push(`/keluhan/${props.id}`)} style={{cursor:'pointer'}}>
+        <Td>{props.id}</Td>
+        <Td>{props.namaDepan+' '+props.namaBelakang}</Td>
+        <Td>{props.status}</Td>
+        <Td>{props.dukungan+""}</Td>
+        <Td>{props.diperbarui}</Td>
+    </Tr>
   );
 }
 
-export default BarisKeluhan;
+export default withRouter(BarisKeluhan);

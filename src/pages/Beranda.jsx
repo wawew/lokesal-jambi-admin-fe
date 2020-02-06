@@ -8,6 +8,8 @@ import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
 import BarisKeluhan from "../components/barisKeluhan";
 import '../styles/beranda.css';
+import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
 class BerandaAdmin extends Component {
   state = {
@@ -58,7 +60,7 @@ class BerandaAdmin extends Component {
   renderTabelHeader() {
     let header = Object.keys(this.state.keluhanHeader[0])
     return header.map((key, index) => {
-       return <th key={index}>{key.toUpperCase()}</th>
+       return <Th key={index}>{key.toUpperCase()}</Th>
     })
   }
     
@@ -69,9 +71,13 @@ class BerandaAdmin extends Component {
           <NavigasiAdmin keluhan={true} berita={false} pengguna={false} komentar={false} kustomisasi={false} />
           <Container style={{marginTop:'50px', marginBottom:'10px'}}>
             <h3 id='title'>Tabel Keluhan LOKESAL</h3>
-            <table id='keluhan'>
-              <tbody>
-                <tr>{this.renderTabelHeader()}</tr>
+            <Table id='keluhan'>
+              <Thead>
+                <Tr>
+                  {this.renderTabelHeader()}
+                </Tr>
+              </Thead>
+              <Tbody>
                 {this.state.keluhan.map((item) => (
                   <BarisKeluhan 
                     id={item.detail_keluhan.id} 
@@ -82,8 +88,8 @@ class BerandaAdmin extends Component {
                     diperbarui={item.detail_keluhan.diperbarui}
                   />
                 ))}
-              </tbody>
-            </table>
+              </Tbody>
+            </Table>
         </Container>
       </React.Fragment>
     );
