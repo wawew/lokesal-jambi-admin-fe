@@ -10,6 +10,7 @@ import '../styles/masuk.css';
 import '../styles/bootstrap.min.css';
 
 class Masuk extends Component {
+    // inisiasi variabel di state untuk digunakan dalam halaman '/masuk'
     state = {
         email: "",
         kataSandi: "",
@@ -64,12 +65,18 @@ class Masuk extends Component {
             <div className="wrapper fadeInDown">
                 <div id="formContent">
                     <div className="fadeIn first">
-                        <img style={{ marginTop: '30px', marginBottom: '30px' }} src={logo} id="icon" alt="User Icon" />
+                        <img style={{ 
+                            marginTop: '30px', 
+                            marginBottom: '30px' }} 
+                            src={logo} 
+                            id="icon" 
+                            alt="logo" 
+                        />
                     </div>
                     {/* <!-- Formulir Masuk --> */}
                     <form onSubmit={e => e.preventDefault()}>
                         <Form.Group className="fadeIn second">
-                        <Form.Label>Masukkan email anda</Form.Label>
+                        <Form.Label>Masukkan email admin</Form.Label>
                         <Form.Control
                             type="text"
                             id="email"
@@ -77,20 +84,20 @@ class Masuk extends Component {
                             onChange={e => this.setState({email: e.target.value})}
                             placeholder="email@domain.com"
                             className={
-                            this.state.regexEmail.test(this.state.email) || this.state.email === ""
-                            ? ""
-                            : "masuk-email"
+                                this.state.regexEmail.test(this.state.email) || this.state.email === ""
+                                ? ""
+                                : "masuk-email"
                             }
                         />
                         {
                             this.state.regexEmail.test(this.state.email) || this.state.email === ""
-                            ? <div></div>
-                            : <Form.Text className="masuk-emailtext">Format email anda salah</Form.Text>
+                                ? <div></div>
+                                : <Form.Text className="masuk-emailtext">Format email admin salah</Form.Text>
                         }
                         </Form.Group>
 
                         <Form.Group className="fadeIn third">
-                        <Form.Label>Masukkan password anda</Form.Label>
+                        <Form.Label>Masukkan password admin</Form.Label>
                         <Form.Control
                             type={this.state.tampilkanSandi ? "text" : "password"}
                             id="kataSandi"
@@ -101,9 +108,9 @@ class Masuk extends Component {
                         <div
                             className="masuk-tampilkanSandi"
                             onClick={() => {
-                            this.state.tampilkanSandi
-                            ? this.setState({tampilkanSandi: false})
-                            : this.setState({tampilkanSandi: true})
+                                this.state.tampilkanSandi
+                                ? this.setState({tampilkanSandi: false})
+                                : this.setState({tampilkanSandi: true})
                             }}
                         >
                             {this.state.tampilkanSandi ? <FaEye /> : <FaEyeSlash />}
@@ -127,7 +134,7 @@ class Masuk extends Component {
                                 || this.state.kataSandi === ""
                                 ? true
                                 : false
-                              }
+                            }
                         >
                             Masuk
                         </Button>
@@ -136,8 +143,7 @@ class Masuk extends Component {
                 </div>
             </div>
         </React.Fragment>
-        )
-    };
+    )};
 }
 
 export default withRouter(Masuk);

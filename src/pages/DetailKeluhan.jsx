@@ -41,7 +41,13 @@ class DetailKeluhan extends Component {
         return (
         <React.Fragment>
             <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin keluhan={true} berita={false} pengguna={false} komentar={false} kustomisasi={false} />
+            <NavigasiAdmin 
+                keluhan={true} 
+                berita={false} 
+                pengguna={false} 
+                komentar={false} 
+                kustomisasi={false} 
+            />
             <StatusKeluhan 
                 fotoSebelum={this.state.detailKeluhan.foto_sebelum}
                 namaDepan={this.state.detailKeluhan.nama_depan}

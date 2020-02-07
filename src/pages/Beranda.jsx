@@ -7,8 +7,8 @@ import { Container } from "react-bootstrap";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
 import BarisKeluhan from "../components/barisKeluhan";
-import '../styles/beranda.css';
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table'
+import '../styles/beranda.css';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
 class BerandaAdmin extends Component {
@@ -21,6 +21,7 @@ class BerandaAdmin extends Component {
   }
 
   componentDidMount = () => {
+    // jika admin tidak memiliki token, maka akan diarahkan untuk ke halaman '/masuk'
     if (localStorage.getItem("token") === null) {
       this.props.history.push("/masuk");
     }
@@ -68,7 +69,13 @@ class BerandaAdmin extends Component {
       return (
       <React.Fragment>
           <Header penangananKeluar={this.penangananKeluar}/>
-          <NavigasiAdmin keluhan={true} berita={false} pengguna={false} komentar={false} kustomisasi={false} />
+          <NavigasiAdmin 
+            keluhan={true} 
+            berita={false} 
+            pengguna={false} 
+            komentar={false} 
+            kustomisasi={false} 
+          />
           <Container style={{marginTop:'50px', marginBottom:'10px'}}>
             <h3 id='title'>Tabel Keluhan LOKESAL</h3>
             <Table id='keluhan'>
