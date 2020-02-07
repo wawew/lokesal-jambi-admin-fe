@@ -5,7 +5,7 @@ import { connect } from "unistore/react";
 import { actions } from "../store/store";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
-import { Container, Row } from "react-bootstrap";
+import StatusKeluhan from "../components/keluhan";
 
 class DetailKeluhan extends Component {
     state = {
@@ -26,7 +26,7 @@ class DetailKeluhan extends Component {
         axios(req)
             .then((response) => {
             this.setState({ 'detailKeluhan': response.data })
-            // console.log('ini respons', this.state.detailKeluhan)
+            console.log('ini respons', this.state.detailKeluhan)
         })
     }
 
@@ -41,15 +41,24 @@ class DetailKeluhan extends Component {
         return (
         <React.Fragment>
             <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin keluhan={true} berita={false} pengguna={false} komentar={false} kustomisasi={false} />
-            <Container className='detail-keluhan' style={{marginTop:'50px'}}>
-                <Row style={{ textAlign: "center", width: "100%", height: "350px" }}>
-                    <img style={{ width: "380px", height: "320px", borderRadius: "10px" }} src={this.state.detailKeluhan.foto_sebelum} className="fotoSebelum" alt="" />
-                </Row>
-            </Container>
+            <NavigasiAdmin 
+                keluhan={true} 
+                berita={false} 
+                pengguna={false} 
+                komentar={false} 
+                kustomisasi={false} 
+            />
+            <StatusKeluhan 
+                fotoSebelum={this.state.detailKeluhan.foto_sebelum}
+                namaDepan={this.state.detailKeluhan.nama_depan}
+                namaBelakang={this.state.detailKeluhan.nama_belakang}
+                diperbarui={this.state.detailKeluhan.diperbarui}
+                status={this.state.detailKeluhan.status}
+                isi={this.state.detailKeluhan.isi}
+            />
         </React.Fragment>
         );
     }
 }
 
-export default connect("namaKota", actions)(withRouter(DetailKeluhan));
+export default connect("", actions)(withRouter(DetailKeluhan));
