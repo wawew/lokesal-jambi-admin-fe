@@ -1,17 +1,20 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 import { GiPlainCircle } from "react-icons/gi";
+import moment from 'moment';
+import "moment-timezone";
+import "moment/locale/id";
 
 // component stateless untuk menampilkan isi detail keluhan dengan sesuai status keluhan
 const StatusKeluhan = props => {
   return (
     <Container className='detail-keluhan' style={{marginTop:'50px'}}>
         <Row>
-          <Col style={{textAlign:'center'}}>
-            <img style={{ 
-              width: "250px", 
-              height: "250px", 
+          <Col xs={12} md={6} style={{textAlign:'center'}}>
+            <Image style={{ 
+              width: "100%", 
+              height: "300px", 
               borderRadius: "10px", 
               objectFit:'cover', 
               textAlign:'center', 
@@ -19,14 +22,36 @@ const StatusKeluhan = props => {
               }} 
               src={props.fotoSebelum} 
               className="fotoSebelum" 
-              alt="fotoSebelum" 
+              alt="fotoSebelum"
+              fluid 
+            />
+          </Col>
+          <Col xs={12} md={6} style={{textAlign:'center'}}>
+            <Image style={{ 
+              width: "100%", 
+              height: "300px", 
+              borderRadius: "10px", 
+              objectFit:'cover', 
+              textAlign:'center', 
+              marginBottom:'30px' 
+              }} 
+              src='https://placehold.it/540x300/171717/2F2F2F' 
+              className="fotoSebelum" 
+              alt="fotoSebelum"
+              fluid 
             />
           </Col>
         </Row>
         <Row>
           <Col xs="auto">
-            <span>Nama: {props.namaDepan+' '+props.namaBelakang}</span><br />
-            <span>Diperbarui: {props.diperbarui}</span>
+            <span>Nama: <strong>{props.namaDepan+' '+props.namaBelakang}</strong></span>
+            <br />
+            <span>Diperbarui:{" "}
+              {moment(`${props.diperbarui}Z`)
+                  .tz("Asia/Jakarta")
+                  .format("LL")}{", "}
+              {moment(`${props.diperbarui}Z`).format("hh:mm")} WIB
+            </span>
           </Col>
           <Col xs="auto" 
             style={{
@@ -47,7 +72,10 @@ const StatusKeluhan = props => {
           </Col>
         </Row>
         <Row style={{marginTop:"30px"}}>
-          <Col>
+          <Col xs={12}>
+            <span><strong>ISI KELUHAN: </strong></span>
+          </Col>
+          <Col xs={12}>
             <span>{props.isi}</span>
           </Col>
         </Row>

@@ -113,7 +113,7 @@ class Masuk extends Component {
                                 : this.setState({tampilkanSandi: true})
                             }}
                         >
-                            {this.state.tampilkanSandi ? <FaEye /> : <FaEyeSlash />}
+                            {this.state.tampilkanSandi ? <FaEyeSlash /> : <FaEye />}
                         </div>
                         </Form.Group>
                         

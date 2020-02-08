@@ -12,9 +12,11 @@ import '../styles/beranda.css';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
 class BerandaAdmin extends Component {
+  // inisiasi variabel di state untuk digunakan dalam halaman beranda
   state = {
     halaman: '',
     perHalaman: '',
+    totalHalaman: '',
     memuat: false,
     keluhan: [],
     keluhanHeader: [{ ID: '', Pelapor: '', Status: '', Dukungan: '', Diperbarui: '' }]
@@ -43,7 +45,7 @@ class BerandaAdmin extends Component {
       this.setState({
         'halaman': response.data.halaman,
         'perHalaman': response.data.per_halaman,
-        'totalHalaman': response.data.totaal_halaman,
+        'totalHalaman': response.data.total_halaman,
         'keluhan': response.data.daftar_keluhan
       })
       console.log('ini respons', response.data)

@@ -1,19 +1,31 @@
 import React, { Component } from "react";
+import Form from 'react-bootstrap/Form';
+import { Container } from "react-bootstrap";
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
-import { actions } from "../store/store";
+import { actions, store } from "../store/store";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
 import StatusKeluhan from "../components/keluhan";
+import mapboxgl from 'mapbox-gl';
+import Peta from "../components/peta";
+import '../styles/peta.css';
+
+mapboxgl.accessToken = store.getState().mapboxKey;
 
 class DetailKeluhan extends Component {
+    // inisiasi variabel di state untuk digunakan dalam halaman detail keluhan
     state = {
         detailKeluhan: [],
-        idKeluhan: ''
+        idKeluhan: '',
+        longitude: 0,
+        latitude: 0,
+        memuatPeta: false
     }
 
-    componentDidMount = () => {
+    componentDidMount = async() => {
+        this.setState({ memuatPeta: true })
         const idKeluhan = this.props.match.params.id
 
         // fungsi untuk menampilkan detail keluhan dengan id tertentu
@@ -23,10 +35,14 @@ class DetailKeluhan extends Component {
             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
             };
 
-        axios(req)
+        await axios(req)
             .then((response) => {
-            this.setState({ 'detailKeluhan': response.data })
-            console.log('ini respons', this.state.detailKeluhan)
+            this.setState({ 
+                detailKeluhan: response.data,
+                longitude: response.data.longitude, 
+                latitude: response.data.latitude,
+                memuatPeta: false })
+            console.log('ini respons', response.data)
         })
     }
 
@@ -56,9 +72,23 @@ class DetailKeluhan extends Component {
                 status={this.state.detailKeluhan.status}
                 isi={this.state.detailKeluhan.isi}
             />
+            <Container style={{marginTop:"30px", marginBottom:"30px"}}>
+                {this.state.memuatPeta ?
+                <div>
+                    
+                </div>:
+                <Peta longitude={this.state.longitude} latitude={this.state.latitude} />
+            }
+            </Container>
+            <Container style={{marginTop: '30px'}}>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Isi Tanggapan Admin: </Form.Label>
+                    <Form.Control as="textarea" rows="5" />
+                </Form.Group>
+            </Container>
         </React.Fragment>
         );
     }
 }
 
-export default connect("", actions)(withRouter(DetailKeluhan));
+export default connect("mapboxKey, longitude, latitude, memuatPeta", actions)(withRouter(DetailKeluhan));

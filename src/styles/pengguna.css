@@ -1,0 +1,32 @@
+/* ========== CSS untuk tabel pengguna ========== */
+
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+}
+  
+#pengguna {
+    text-align: center;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+  
+#pengguna td, #pengguna th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+  
+#pengguna tr:nth-child(even){background-color: #f2f2f2;}
+  
+#pengguna tr:hover {background-color: #ddd;}
+  
+#pengguna th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* ======================================================== */
