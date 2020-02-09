@@ -8,6 +8,7 @@ const initialState = {
     logoKota: "https://jambikota.go.id/new/wp-content/uploads/Logojmb_edited2.jpg",
     namaKota: "Jambi",
     tajukKota: "Tanah Pilih Pesako Betuah",
+    mapboxUrl: "https://api.mapbox.com/geocoding/v5/mapbox.places/",
     mapboxKey: "pk.eyJ1Ijoic3VtYXJub3dpbGx5OTQiLCJhIjoiY2s2NHo0YzlzMDMwMjNscXdzYmo3dDV4cyJ9.bOcW5ZPZob_quslf4RP0sw",
 };
 
