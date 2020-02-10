@@ -59,6 +59,7 @@ class DetailKeluhan extends Component {
     };
 
     kirimTanggapan = () => {
+        console.log('isi tanggapan', this.state.isiTanggapan)
         const idKeluhan = this.props.match.params.id
         this.setState({ memuat: true });
         if (this.state.isiTanggapan === "") {
@@ -108,13 +109,19 @@ class DetailKeluhan extends Component {
                             },
                             data: {
                                 foto_sesudah: this.state.linkFoto,
-                                isi: this.state.isiTanggapan,
+                                isi: this.state.isiTanggapan
                             }
                         };
                         axios(request)
                             .then(response => {
-                                this.setState({ memuat: false });
-                                this.setState({ isiTanggapan: "" });
+                                this.setState({
+                                    isiTanggapan: "",
+                                    foto: null,
+                                    urlFotoSesudah: "",
+                                    linkFoto: "",
+                                    namaFoto: "",
+                                    memuat: false
+                                });
                                 this.props.history.push(`/`);
                             })
                             .catch(() => {
@@ -146,18 +153,18 @@ class DetailKeluhan extends Component {
                 },
                 data: {
                     foto_sesudah: this.state.linkFoto,
-                    isi: this.props.isiTanggapan
+                    isi: this.state.isiTanggapan
                 }
                 };
                 axios(request)
                 .then(response => {
-                    this.setState({ memuat: false });
                     this.setState({
                         isiTanggapan: "",
                         foto: null,
                         urlFotoSesudah: "",
                         linkFoto: "",
-                        namaFoto: ""
+                        namaFoto: "",
+                        memuat: false
                     });
                     this.props.history.push(`/`);
                 })
@@ -195,6 +202,7 @@ class DetailKeluhan extends Component {
     penangananKeluar = () => {
         localStorage.removeItem('id')
         localStorage.removeItem('token')
+        swal("LOKESAL ADMIN", "Admin keluar dari aplikasi.", "success");
         this.props.history.push("/masuk")
     }
 
@@ -209,69 +217,109 @@ class DetailKeluhan extends Component {
                 komentar={false} 
                 kustomisasi={false} 
             />
+
+            {this.state.detailKeluhan.status === "diterima" ? (
             <Container>
                 <Row>
                     <Col xs={12} md={12} style={{textAlign:'center', marginTop:"50px"}}>
                         <h6 style={{textAlign:"center"}}>Foto Sebelum</h6>
                         <Image style={{ 
-                        width: "100%", 
-                        height: "100%",  
-                        objectFit:'cover'
+                            width: "100%", 
+                            height: "100%",  
+                            objectFit:'cover'
                         }} 
                         src={this.state.detailKeluhan.foto_sebelum} 
                         alt="foto sebelum"
                         fluid rounded
                         />
                     </Col>
-                    <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
-                        <Container fluid className="tanggapan-foto">
-                            <Row>
-                                <Col>
-                                <h6 style={{textAlign:"center"}}>Foto Sesudah</h6>
-                                {this.state.urlFotoSesudah === "" ? (
-                                    <div className="tanggapan-foto-kosong">
-                                        <FaFileImage />
-                                        <Image alt="foto sesudah" src={this.state.detailKeluhan.foto_sesudah} />
-                                    </div>
-                                ) : (
-                                    <Image alt="foto sesudah" src={this.state.urlFotoSesudah} />
-                                )}
-                                </Col>
-                            </Row>
-                            <Row className="tanggapan-foto-row">
-                                <Col></Col>
-                                <Col className="tanggapan-unggah" xs="auto">
-                                <input
-                                    type="file"
-                                    id="tanggapan-unggah-foto"
-                                    className="tanggapan-unggah-foto"
-                                    onChange={this.ubahFoto}
-                                />
-                                <Button
-                                    variant="secondary"
-                                    className="tanggapan-unggah-foto-button"
-                                    onClick={() =>
-                                    document.getElementById("tanggapan-unggah-foto").click()
-                                    }
-                                >
-                                    Unggah Foto
-                                </Button>
-                                <Button
-                                    variant="danger"
-                                    onClick={() => {
-                                    document.querySelector("#customFile").value = "";
-                                    this.setState({ foto: null, urlFotoSesudah: "", namaFoto: "" });
-                                    }}
-                                >
-                                    Hapus
-                                </Button>
-                                </Col>
-                                <Col></Col>
-                            </Row>
-                        </Container>
-                    </Col>
                 </Row>
-            </Container>
+            </Container> 
+            ) : this.state.detailKeluhan.status === "diproses" ? (
+                <Container>
+                    <Row>
+                        <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
+                            <h6 style={{textAlign:"center"}}>Foto Sebelum</h6>
+                            <Image style={{ 
+                                width: "100%", 
+                                height: "300px",  
+                                objectFit:'cover'
+                            }} 
+                            src={this.state.detailKeluhan.foto_sebelum} 
+                            alt="foto sebelum"
+                            fluid rounded
+                            />
+                        </Col>
+                        <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
+                            <Container fluid className="tanggapan-foto">
+                                <Row>
+                                    <Col>
+                                    <h6 style={{textAlign:"center"}}>Foto Sesudah</h6>
+                                    {this.state.urlFotoSesudah === "" ? (
+                                        <div className="tanggapan-foto-kosong">
+                                            <FaFileImage />
+                                        </div>
+                                    ) : (
+                                        <Image alt="foto sesudah" src={this.state.urlFotoSesudah} />
+                                    )}
+                                    </Col>
+                                </Row>
+                                <Row className="tanggapan-foto-row">
+                                    <Col></Col>
+                                    <Col className="tanggapan-unggah" xs="auto">
+                                        <input
+                                            type="file"
+                                            id="tanggapan-unggah-foto"
+                                            className="tanggapan-unggah-foto"
+                                            onChange={this.ubahFoto}
+                                        />
+                                        <Button
+                                            variant="secondary"
+                                            className="tanggapan-unggah-foto-button"
+                                            onClick={() =>
+                                            document.getElementById("tanggapan-unggah-foto").click()
+                                            }
+                                        >
+                                            Unggah Foto
+                                        </Button>
+                                    </Col>
+                                    <Col></Col>
+                                </Row>
+                            </Container>
+                        </Col>
+                    </Row>
+                </Container> 
+            ) : (
+                <Container>
+                    <Row>
+                        <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
+                            <h6 style={{textAlign:"center"}}>Foto Sebelum</h6>
+                            <Image style={{ 
+                            width: "100%", 
+                            height: "300px",  
+                            objectFit:'cover'
+                            }} 
+                            src={this.state.detailKeluhan.foto_sebelum} 
+                            alt="foto sebelum"
+                            fluid rounded
+                            />
+                        </Col>
+                        <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
+                            <Container fluid className="tanggapan-foto">
+                                <Row>
+                                    <Col>
+                                    <h6 style={{textAlign:"center"}}>Foto Sesudah</h6>
+                                        <div className="tanggapan-foto-kosong">
+                                            <Image alt="foto sesudah" src={this.state.detailKeluhan.foto_sesudah} />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Col>
+                    </Row>
+                </Container> 
+            )}
+
             <StatusKeluhan 
                 namaDepan={this.state.detailKeluhan.nama_depan}
                 namaBelakang={this.state.detailKeluhan.nama_belakang}
@@ -279,6 +327,7 @@ class DetailKeluhan extends Component {
                 status={this.state.detailKeluhan.status}
                 isi={this.state.detailKeluhan.isi}
             />
+
             <Container style={{marginTop:"30px", marginBottom:"30px"}}>
                 {this.state.memuat ?
                 <div>
@@ -287,42 +336,54 @@ class DetailKeluhan extends Component {
                 <Peta longitude={this.state.longitude} latitude={this.state.latitude} />
             }
             </Container>
-            <Container className="tanggapan-textarea" style={{marginTop: '30px', marginBottom:"30px"}}>
-                <Row>
-                    <Col>
-                    <Form onSubmit={event => event.preventDefault()}>
-                        <Form.Group>
-                        <Form.Label>Masukkan Tanggapan Admin</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            rows="5"
-                            value={this.state.isiTanggapan}
-                            onChange={event => {
-                            this.setState({ isiTanggapan: event.target.value });
-                            }}
-                        />
-                        </Form.Group>
-                        {this.state.memuat ? (
-                        <Container>
-                            <Row>
-                            <Col>
-                                <Spinner animation="grow" variant="success" />
-                            </Col>
-                            </Row>
-                        </Container>
-                        ) : (
-                        <Button
-                            variant="success"
-                            type="submit"
-                            onClick={() => this.kirimTanggapan()}
-                        >
-                            Kirim Tanggapan
-                        </Button>
-                        )}
-                    </Form>
-                    </Col>
-                </Row>
-            </Container>
+
+            {this.state.detailKeluhan.status === "selesai" ? (
+                <Container className="tanggapan-textarea" style={{marginTop: '30px', marginBottom:"30px"}}>
+                    <Row>
+                        <Col>
+                            <h6><strong>Tanggapan Admin</strong></h6>
+                            <span>{this.state.detailKeluhan.tanggapan_admin[1].isi}</span>
+                        </Col>
+                    </Row>
+                </Container>
+            ) : (
+                <Container className="tanggapan-textarea" style={{marginTop: '30px', marginBottom:"30px"}}>
+                    <Row>
+                        <Col>
+                        <Form onSubmit={event => event.preventDefault()}>
+                            <Form.Group>
+                            <Form.Label>Masukkan Tanggapan Admin</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows="5"
+                                value={this.state.isiTanggapan}
+                                onChange={event => {
+                                this.setState({ isiTanggapan: event.target.value });
+                                }}
+                            />
+                            </Form.Group>
+                            {this.state.memuat ? (
+                            <Container>
+                                <Row>
+                                <Col>
+                                    <Spinner animation="grow" variant="success" />
+                                </Col>
+                                </Row>
+                            </Container>
+                            ) : (
+                            <Button
+                                variant="success"
+                                type="submit"
+                                onClick={() => this.kirimTanggapan()}
+                            >
+                                Kirim Tanggapan
+                            </Button>
+                            )}
+                        </Form>
+                        </Col>
+                    </Row>
+                </Container>
+            )}
         </React.Fragment>
         );
     }

@@ -39,6 +39,11 @@ class Masuk extends Component {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('id', response.data.id)
             this.setState({memuat: false})
+            swal({
+                title: "LOKESAL ADMIN",
+                text: "Admin berhasil masuk.",
+                icon: "success"
+            })
             this.props.history.push("/")
             }
             console.log('response data', response.data);
