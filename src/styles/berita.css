@@ -1,0 +1,32 @@
+/* ========== CSS untuk tabel berita ========== */
+
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+}
+  
+#berita {
+    text-align: center;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+  
+#berita td, #berita th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+  
+#berita tr:nth-child(even){background-color: #f2f2f2;}
+  
+#berita tr:hover {background-color: #ddd;}
+  
+#berita th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* ======================================================== */

@@ -1,0 +1,60 @@
+.tanggapan-textarea {
+    background-color: white;
+}
+  
+.tanggapan-textarea label {
+    margin-bottom: 0;
+}
+  
+.tanggapan-textarea button {
+    display: block;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+.tanggapan-foto {
+    background-color: white;
+}
+  
+.tanggapan-foto-kosong {
+    background-color: rgb(220, 220, 220);
+    border-radius: 10px;
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 50px;
+}
+  
+.tanggapan-foto img {
+    border-radius: 10px;
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 50px;
+}
+  
+.tanggapan-foto-row {
+    margin-top: auto;
+}
+
+.tanggapan-unggah {
+    margin-top: 10px;
+}
+
+.tanggapan-unggah-foto {
+    display: none;
+    margin-right: 10px;
+}
+  
+.tanggapan-unggah-foto-button {
+    margin-right: auto;
+}

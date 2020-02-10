@@ -7,25 +7,23 @@ import { Container } from "react-bootstrap";
 import Header from "../components/header";
 import NavigasiAdmin from "../components/navigasi";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
-import '../styles/pengguna.css';
+import '../styles/komentar.css';
 
 
-class Pengguna extends Component {
-    // inisiasi variabel di state untuk digunakan dalam halaman pengguna
+class Komentar extends Component {
+    // inisiasi variabel di state untuk digunakan dalam halaman komentar
     state = {
         halaman: '',
         perHalaman: '',
         totalHalaman: '',
         memuat: false,
-        pengguna: [],
-        penggunaHeader: [{ 
-            ID: '', 
-            Nama: '', 
+        komentar: [],
+        komentarHeader: [{ 
+            ID: '',  
             Email: '', 
-            Telepon: '', 
+            Laporan: '', 
             Diperbarui: '',
-            Status: '',
-            Verifikasi: ''
+            Hapus: ''
         }]
     }
 
@@ -35,10 +33,10 @@ class Pengguna extends Component {
         this.props.history.push("/masuk");
         }
 
-        // fungsi untuk menampilkan seluruh data pengguna
+        // fungsi untuk menampilkan seluruh data komentar
         const req = {
         method: 'get',
-        url: `https://api.lokesal.online/admin/pengguna?${
+        url: `https://api.lokesal.online/komentar?${
                 this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
                 }&${
                     this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
@@ -53,7 +51,7 @@ class Pengguna extends Component {
             'halaman': response.data.halaman,
             'perHalaman': response.data.per_halaman,
             'totalHalaman': response.data.totaal_halaman,
-            'pengguna': response.data.daftar_pengguna
+            'komentar': response.data.daftar_komentar
         })
         console.log('ini respons', response.data)
         })
@@ -66,9 +64,9 @@ class Pengguna extends Component {
         this.props.history.push("/masuk")
     }
 
-    // membuat header untuk tabel pengguna
+    // membuat header untuk tabel komentar
     renderTabelHeader() {
-        let header = Object.keys(this.state.penggunaHeader[0])
+        let header = Object.keys(this.state.komentarHeader[0])
         return header.map((key, index) => {
         return <Th key={index}>{key.toUpperCase()}</Th>
         })
@@ -81,29 +79,25 @@ class Pengguna extends Component {
             <NavigasiAdmin 
                 keluhan={false} 
                 berita={false} 
-                pengguna={true} 
-                komentar={false} 
+                pengguna={false} 
+                komentar={true} 
                 kustomisasi={false} 
             />
             <Container style={{marginTop:'50px', marginBottom:'10px'}}>
-                <h3 id='title'>Tabel Pengguna {store.getState().namaKota}</h3>
-                <Table id='pengguna'>
+                <h3 id='title'>Tabel Komentar {store.getState().namaKota}</h3>
+                <Table id='komentar'>
                     <Thead>
                         <Tr>
                         {this.renderTabelHeader()}
                         </Tr>
                     </Thead>
                     {/* <Tbody>
-                        {this.state.pengguna.map((item) => (
-                        <BarisPengguna 
-                            id={item.detail_pengguna.id} 
-                            namaDepan={item.detail_pengguna.nama_depan}
-                            namaBelakang={item.detail_pengguna.nama_belakang}
-                            email={item.detail_pengguna.email}
-                            telepon={item.detail_pengguna.telepon}
-                            diperbarui={item.detail_pengguna.diperbarui}
-                            status={item.detail_pengguna.status}
-                            verifikasi={item.detail_pengguna.verifikasi}
+                        {this.state.komentar.map((item) => (
+                        <BarisKomentar 
+                            id={item.detail_komentar.id} 
+                            email={item.detail_komentar.email}
+                            laporan={item.detail_komentar.laporan}
+                            diperbarui={item.detail_komentar.diperbarui}
                         />
                         ))}
                     </Tbody> */}
@@ -114,4 +108,4 @@ class Pengguna extends Component {
     }
 }
 
-export default connect("namaKota", actions)(withRouter(Pengguna));
+export default connect("namaKota", actions)(withRouter(Komentar));

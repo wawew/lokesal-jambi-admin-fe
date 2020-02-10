@@ -7,26 +7,18 @@ import { Container } from "react-bootstrap";
 import Header from "../components/header";
 import NavigasiAdmin from "../components/navigasi";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
-import '../styles/pengguna.css';
+import '../styles/berita.css';
 
 
-class Pengguna extends Component {
-    // inisiasi variabel di state untuk digunakan dalam halaman pengguna
+class Berita extends Component {
+    // inisiasi variabel di state untuk digunakan dalam halaman berita
     state = {
         halaman: '',
         perHalaman: '',
         totalHalaman: '',
         memuat: false,
-        pengguna: [],
-        penggunaHeader: [{ 
-            ID: '', 
-            Nama: '', 
-            Email: '', 
-            Telepon: '', 
-            Diperbarui: '',
-            Status: '',
-            Verifikasi: ''
-        }]
+        berita: [],
+        beritaHeader: [{ ID: '', Judul: '', Disukai: '', Komentar: '', Dibuat: '' }]
     }
 
     componentDidMount = () => {
@@ -35,10 +27,10 @@ class Pengguna extends Component {
         this.props.history.push("/masuk");
         }
 
-        // fungsi untuk menampilkan seluruh data pengguna
+        // fungsi untuk menampilkan seluruh data berita
         const req = {
         method: 'get',
-        url: `https://api.lokesal.online/admin/pengguna?${
+        url: `https://api.lokesal.online/berita?${
                 this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
                 }&${
                     this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
@@ -53,7 +45,7 @@ class Pengguna extends Component {
             'halaman': response.data.halaman,
             'perHalaman': response.data.per_halaman,
             'totalHalaman': response.data.totaal_halaman,
-            'pengguna': response.data.daftar_pengguna
+            'berita': response.data.daftar_berita
         })
         console.log('ini respons', response.data)
         })
@@ -66,9 +58,9 @@ class Pengguna extends Component {
         this.props.history.push("/masuk")
     }
 
-    // membuat header untuk tabel pengguna
+    // membuat header untuk tabel berita
     renderTabelHeader() {
-        let header = Object.keys(this.state.penggunaHeader[0])
+        let header = Object.keys(this.state.beritaHeader[0])
         return header.map((key, index) => {
         return <Th key={index}>{key.toUpperCase()}</Th>
         })
@@ -80,33 +72,30 @@ class Pengguna extends Component {
             <Header penangananKeluar={this.penangananKeluar}/>
             <NavigasiAdmin 
                 keluhan={false} 
-                berita={false} 
-                pengguna={true} 
+                berita={true} 
+                pengguna={false} 
                 komentar={false} 
                 kustomisasi={false} 
             />
             <Container style={{marginTop:'50px', marginBottom:'10px'}}>
-                <h3 id='title'>Tabel Pengguna {store.getState().namaKota}</h3>
-                <Table id='pengguna'>
-                    <Thead>
-                        <Tr>
-                        {this.renderTabelHeader()}
-                        </Tr>
-                    </Thead>
-                    {/* <Tbody>
-                        {this.state.pengguna.map((item) => (
-                        <BarisPengguna 
-                            id={item.detail_pengguna.id} 
-                            namaDepan={item.detail_pengguna.nama_depan}
-                            namaBelakang={item.detail_pengguna.nama_belakang}
-                            email={item.detail_pengguna.email}
-                            telepon={item.detail_pengguna.telepon}
-                            diperbarui={item.detail_pengguna.diperbarui}
-                            status={item.detail_pengguna.status}
-                            verifikasi={item.detail_pengguna.verifikasi}
-                        />
-                        ))}
-                    </Tbody> */}
+                <h3 id='title'>Tabel Berita {store.getState().namaKota}</h3>
+                <Table id='berita'>
+                <Thead>
+                    <Tr>
+                    {this.renderTabelHeader()}
+                    </Tr>
+                </Thead>
+                {/* <Tbody>
+                    {this.state.berita.map((item) => (
+                    <BarisBerita 
+                        id={item.detail_berita.id} 
+                        judul={item.detail_berita.judul}
+                        disukai={item.detail_berita.disukai}
+                        komentar={item.detail_berita.komentar}
+                        dibuat={item.detail_berita.dibuat}
+                    />
+                    ))}
+                </Tbody> */}
                 </Table>
             </Container>
         </React.Fragment>
@@ -114,4 +103,4 @@ class Pengguna extends Component {
     }
 }
 
-export default connect("namaKota", actions)(withRouter(Pengguna));
+export default connect("namaKota", actions)(withRouter(Berita));

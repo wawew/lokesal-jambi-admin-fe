@@ -7,14 +7,17 @@ import { Container } from "react-bootstrap";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
 import BarisKeluhan from "../components/barisKeluhan";
-import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table'
+import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
+import swal from "sweetalert";
 import '../styles/beranda.css';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 class BerandaAdmin extends Component {
+  // inisiasi variabel di state untuk digunakan dalam halaman beranda
   state = {
     halaman: '',
     perHalaman: '',
+    totalHalaman: '',
     memuat: false,
     keluhan: [],
     keluhanHeader: [{ ID: '', Pelapor: '', Status: '', Dukungan: '', Diperbarui: '' }]
@@ -43,7 +46,7 @@ class BerandaAdmin extends Component {
       this.setState({
         'halaman': response.data.halaman,
         'perHalaman': response.data.per_halaman,
-        'totalHalaman': response.data.totaal_halaman,
+        'totalHalaman': response.data.total_halaman,
         'keluhan': response.data.daftar_keluhan
       })
       console.log('ini respons', response.data)
@@ -54,6 +57,7 @@ class BerandaAdmin extends Component {
   penangananKeluar = () => {
     localStorage.removeItem('id')
     localStorage.removeItem('token')
+    swal("LOKESAL ADMIN", "Admin keluar dari aplikasi.", "success");
     this.props.history.push("/masuk")
   }
 

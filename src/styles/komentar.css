@@ -1,0 +1,32 @@
+/* ========== CSS untuk tabel komentar ========== */
+
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+}
+  
+#komentar {
+    text-align: center;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+  
+#komentar td, #komentar th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+  
+#komentar tr:nth-child(even){background-color: #f2f2f2;}
+  
+#komentar tr:hover {background-color: #ddd;}
+  
+#komentar th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* ======================================================== */
