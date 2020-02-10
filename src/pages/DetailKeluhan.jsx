@@ -212,10 +212,8 @@ class DetailKeluhan extends Component {
             <Header penangananKeluar={this.penangananKeluar}/>
             <NavigasiAdmin 
                 keluhan={true} 
-                berita={false} 
                 pengguna={false} 
                 komentar={false} 
-                kustomisasi={false} 
             />
 
             {this.state.detailKeluhan.status === "diterima" ? (
@@ -257,7 +255,7 @@ class DetailKeluhan extends Component {
                                     <h6 style={{textAlign:"center"}}>Foto Sesudah</h6>
                                     {this.state.urlFotoSesudah === "" ? (
                                         <div className="tanggapan-foto-kosong">
-                                            <FaFileImage />
+                                            <FaFileImage style={{marginTop:"125px"}}/>
                                         </div>
                                     ) : (
                                         <Image alt="foto sesudah" src={this.state.urlFotoSesudah} />

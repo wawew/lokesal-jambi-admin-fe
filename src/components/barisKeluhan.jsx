@@ -17,6 +17,11 @@ const BarisKeluhan = props => {
       <Td><strong>{props.namaDepan+' '+props.namaBelakang}</strong></Td>
       <Td>{props.status}</Td>
       <Td>{props.dukungan+""}</Td>
+      <Td>{moment(`${props.dibuat}Z`)
+            .tz("Asia/Jakarta")
+            .format("LL")}{", "}
+          {moment(`${props.dibuat}Z`).format("HH:mm")} WIB
+      </Td>
       <Td>{moment(`${props.diperbarui}Z`)
             .tz("Asia/Jakarta")
             .format("LL")}{", "}

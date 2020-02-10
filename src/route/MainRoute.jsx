@@ -6,7 +6,6 @@ import BerandaAdmin from '../pages/Beranda';
 import Masuk from '../pages/Masuk';
 import Pengguna from '../pages/Pengguna';
 import DetailKeluhan from '../pages/DetailKeluhan';
-import Berita from '../pages/Berita';
 import Komentar from '../pages/Komentar';
 
 const MainRoute = () => {
@@ -18,7 +17,6 @@ const MainRoute = () => {
                     <Route exact path='/masuk' component={Masuk} />
                     <Route exact path='/pengguna' component={Pengguna} />
                     <Route exact path='/keluhan/:id' component={DetailKeluhan} />
-                    <Route exact path='/berita' component={Berita} />
                     <Route exact path='/komentar' component={Komentar} />
                 </Switch>
             </BrowserRouter>

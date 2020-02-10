@@ -3,7 +3,7 @@ import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
-import { Container } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
 import BarisKeluhan from "../components/barisKeluhan";
@@ -18,9 +18,9 @@ class BerandaAdmin extends Component {
     halaman: '',
     perHalaman: '',
     totalHalaman: '',
-    memuat: false,
+    memuat: true,
     keluhan: [],
-    keluhanHeader: [{ ID: '', Pelapor: '', Status: '', Dukungan: '', Diperbarui: '' }]
+    keluhanHeader: [{ ID: '', Pelapor: '', Status: '', Dukungan: '', Dibuat: '', Diperbarui: '' }]
   }
 
   componentDidMount = () => {
@@ -44,6 +44,7 @@ class BerandaAdmin extends Component {
     axios(req)
     .then((response) => {
       this.setState({
+        'memuat': false,
         'halaman': response.data.halaman,
         'perHalaman': response.data.per_halaman,
         'totalHalaman': response.data.total_halaman,
@@ -62,7 +63,7 @@ class BerandaAdmin extends Component {
   }
 
   // membuat header untuk tabel keluhan
-  renderTabelHeader() {
+  renderTabelHeader = () => {
     let header = Object.keys(this.state.keluhanHeader[0])
     return header.map((key, index) => {
        return <Th key={index}>{key.toUpperCase()}</Th>
@@ -75,32 +76,35 @@ class BerandaAdmin extends Component {
           <Header penangananKeluar={this.penangananKeluar}/>
           <NavigasiAdmin 
             keluhan={true} 
-            berita={false} 
             pengguna={false} 
             komentar={false} 
-            kustomisasi={false} 
           />
-          <Container style={{marginTop:'50px', marginBottom:'10px'}}>
-            <h3 id='title'>Tabel Keluhan LOKESAL</h3>
-            <Table id='keluhan'>
-              <Thead>
-                <Tr>
-                  {this.renderTabelHeader()}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {this.state.keluhan.map((item) => (
-                  <BarisKeluhan 
-                    id={item.detail_keluhan.id} 
-                    namaDepan={item.nama_depan}
-                    namaBelakang={item.nama_belakang}
-                    status={item.detail_keluhan.status}
-                    dukungan={item.detail_keluhan.total_dukungan}
-                    diperbarui={item.detail_keluhan.diperbarui}
-                  />
-                ))}
-              </Tbody>
-            </Table>
+          <Container style={{marginTop:'50px', marginBottom:'10px', textAlign:"center"}}>
+            <h3 id='title'>Tabel Keluhan Jambi</h3>
+            {this.state.memuat ? (
+              <Spinner animation="grow" variant="success" />
+            ) : (
+              <Table id='keluhan'>
+                <Thead>
+                  <Tr>
+                    {this.renderTabelHeader()}
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {this.state.keluhan.map((item) => (
+                    <BarisKeluhan 
+                      id={item.detail_keluhan.id} 
+                      namaDepan={item.nama_depan}
+                      namaBelakang={item.nama_belakang}
+                      status={item.detail_keluhan.status}
+                      dukungan={item.detail_keluhan.total_dukungan}
+                      dibuat={item.detail_keluhan.dibuat}
+                      diperbarui={item.detail_keluhan.diperbarui}
+                    />
+                  ))}
+                </Tbody>
+              </Table>
+            )}
         </Container>
       </React.Fragment>
     );

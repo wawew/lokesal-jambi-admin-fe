@@ -2,8 +2,11 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { Container } from "react-bootstrap";
-import '../styles/navigasi.css';
 import Navbar from 'react-bootstrap/Navbar';
+import { GiBookmarklet } from "react-icons/gi";
+import { FaUsersCog } from "react-icons/fa";
+import { FaComments } from "react-icons/fa";
+import '../styles/navigasi.css';
 
 // component stateless untuk menampilkan navigasi admin di setiap halaman
 const NavigasiAdmin = props => {
@@ -15,35 +18,23 @@ const NavigasiAdmin = props => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Row className="navbar-row">
-            <Col
+            <Col xs={12} md={4}
               className={props.keluhan ? "navbar-aktif" : "navbar-nonaktif"}
               onClick={() => props.history.push("/")}
             >
-              <h6>KELUHAN</h6>
+              <h6><GiBookmarklet style={{paddingBottom:"1px"}}/> Keluhan</h6>
             </Col>
-            <Col 
-              className={props.berita ? "navbar-aktif" : "navbar-nonaktif"} 
-              onClick={() => props.history.push("/berita")}
-            >
-              <h6>BERITA</h6>
-            </Col>
-            <Col 
+            <Col xs={12} md={4}
               className={props.pengguna ? "navbar-aktif" : "navbar-nonaktif"} 
               onClick={() => props.history.push("/pengguna")}
             >
-              <h6>PENGGUNA</h6>
+              <h6><FaUsersCog style={{paddingBottom:"4px"}}/> Pengguna</h6>
             </Col>
-            <Col 
+            <Col xs={12} md={4}
               className={props.komentar ? "navbar-aktif" : "navbar-nonaktif"}
               onClick={() => props.history.push("/komentar")}
             >
-              <h6>KOMENTAR</h6>
-            </Col>
-            <Col 
-              className={props.kustomisasi ? "navbar-aktif" : "navbar-nonaktif"} 
-              onClick={() => props.history.push("/kustomisasi")}
-            >
-              <h6>KUSTOMISASI</h6>
+              <h6><FaComments style={{paddingBottom:"4px"}}/> Komentar</h6>
             </Col>
           </Row>
         </Navbar.Collapse>
