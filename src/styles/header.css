@@ -9,7 +9,7 @@
     color: gray;
     margin-right: 25px;
     margin-left: auto;
-    font-style: italic;
+    padding-bottom: 11px;
 }
 
 @media(max-width:767px) {

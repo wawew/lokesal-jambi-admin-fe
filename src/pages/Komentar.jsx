@@ -78,10 +78,8 @@ class Komentar extends Component {
             <Header penangananKeluar={this.penangananKeluar}/>
             <NavigasiAdmin 
                 keluhan={false} 
-                berita={false} 
                 pengguna={false} 
                 komentar={true} 
-                kustomisasi={false} 
             />
             <Container style={{marginTop:'50px', marginBottom:'10px'}}>
                 <h3 id='title'>Tabel Komentar {store.getState().namaKota}</h3>

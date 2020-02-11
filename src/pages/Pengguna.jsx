@@ -3,10 +3,12 @@ import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
-import { Container } from "react-bootstrap";
 import Header from "../components/header";
 import NavigasiAdmin from "../components/navigasi";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
+import { Spinner, Container } from "react-bootstrap";
+import swal from "sweetalert";
+import BarisPengguna from "../components/barisPengguna";
 import '../styles/pengguna.css';
 
 
@@ -16,7 +18,7 @@ class Pengguna extends Component {
         halaman: '',
         perHalaman: '',
         totalHalaman: '',
-        memuat: false,
+        memuat: true,
         pengguna: [],
         penggunaHeader: [{ 
             ID: '', 
@@ -50,12 +52,13 @@ class Pengguna extends Component {
         axios(req)
         .then((response) => {
         this.setState({
+            'memuat':false,
             'halaman': response.data.halaman,
             'perHalaman': response.data.per_halaman,
             'totalHalaman': response.data.totaal_halaman,
             'pengguna': response.data.daftar_pengguna
         })
-        console.log('ini respons', response.data)
+        console.log('ini respons pengguna', response.data)
         })
     }
 
@@ -63,11 +66,12 @@ class Pengguna extends Component {
     penangananKeluar = () => {
         localStorage.removeItem('id')
         localStorage.removeItem('token')
+        swal("LOKESAL ADMIN", "Admin keluar dari aplikasi.", "success");
         this.props.history.push("/masuk")
     }
 
     // membuat header untuk tabel pengguna
-    renderTabelHeader() {
+    renderTabelHeader = () => {
         let header = Object.keys(this.state.penggunaHeader[0])
         return header.map((key, index) => {
         return <Th key={index}>{key.toUpperCase()}</Th>
@@ -80,34 +84,38 @@ class Pengguna extends Component {
             <Header penangananKeluar={this.penangananKeluar}/>
             <NavigasiAdmin 
                 keluhan={false} 
-                berita={false} 
                 pengguna={true} 
                 komentar={false} 
-                kustomisasi={false} 
             />
-            <Container style={{marginTop:'50px', marginBottom:'10px'}}>
+            <Container style={{marginTop:'50px', marginBottom:'10px', textAlign:"center"}}>
                 <h3 id='title'>Tabel Pengguna {store.getState().namaKota}</h3>
-                <Table id='pengguna'>
-                    <Thead>
-                        <Tr>
-                        {this.renderTabelHeader()}
-                        </Tr>
-                    </Thead>
-                    {/* <Tbody>
-                        {this.state.pengguna.map((item) => (
-                        <BarisPengguna 
-                            id={item.detail_pengguna.id} 
-                            namaDepan={item.detail_pengguna.nama_depan}
-                            namaBelakang={item.detail_pengguna.nama_belakang}
-                            email={item.detail_pengguna.email}
-                            telepon={item.detail_pengguna.telepon}
-                            diperbarui={item.detail_pengguna.diperbarui}
-                            status={item.detail_pengguna.status}
-                            verifikasi={item.detail_pengguna.verifikasi}
-                        />
-                        ))}
-                    </Tbody> */}
-                </Table>
+                {this.state.memuat ? (
+                    <Spinner animation="grow" variant="success" />
+                ) : (
+                    <Table id='pengguna'>
+                        <Thead>
+                            <Tr>
+                            {this.renderTabelHeader()}
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {this.state.pengguna.map((item, index) => (
+                                <BarisPengguna 
+                                    id={item.id} 
+                                    indexPengguna={index}
+                                    namaDepan={item.nama_depan}
+                                    namaBelakang={item.nama_belakang}
+                                    email={item.email}
+                                    telepon={item.telepon}
+                                    diperbarui={item.diperbarui}
+                                    aktif={item.aktif}
+                                    terverifikasi={item.terverifikasi}
+                                    ktp={item.ktp}
+                                />
+                                ))}
+                        </Tbody>
+                    </Table>
+                )}
             </Container>
         </React.Fragment>
         );
