@@ -15,12 +15,49 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 class BerandaAdmin extends Component {
   // inisiasi variabel di state untuk digunakan dalam halaman beranda
   state = {
-    halaman: '',
-    perHalaman: '',
+    halaman: 1,
+    perHalaman: 10,
     totalHalaman: '',
     memuat: true,
     keluhan: [],
-    keluhanHeader: [{ ID: '', Pelapor: '', Status: '', Dukungan: '', Dibuat: '', Diperbarui: '' }]
+    urutkanDibuat: 'dibuat_turun',
+    urutkanDiperbarui: 'diperbarui_turun',
+    totalKeluhan: '',
+    status: '',
+    kepuasan: '',
+    idKeluhan: ''
+  }
+
+  // fungsi untuk menampilkan data keluhan
+  dapatKeluhan = () => {
+    const req = {
+      method: 'get',
+      url: 'https://api.lokesal.online/keluhan',
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      params: {
+        kota: store.getState().namaKota,
+        // status: this.state.status,
+        // kepuasan: this.state.kepuasan,
+        id_keluhan: this.state.idKeluhan,
+        halaman: this.state.halaman,
+        per_halaman: this.state.perHalaman,
+        urutkan_dibuat: this.state.urutkanDibuat,
+        urutkan_diperbarui: this.state.urutkanDiperbarui
+      }
+    };
+
+    axios(req)
+    .then((response) => {
+      this.setState({
+        memuat: false,
+        halaman: response.data.halaman,
+        perHalaman: response.data.per_halaman,
+        totalHalaman: response.data.total_halaman,
+        keluhan: response.data.daftar_keluhan,
+        totalKeluhan: response.data.total_keluhan
+      })
+      this.props.history.push("/")
+    })
   }
 
   componentDidMount = () => {
@@ -28,30 +65,7 @@ class BerandaAdmin extends Component {
     if (localStorage.getItem("token") === null) {
       this.props.history.push("/masuk");
     }
-
-    // fungsi untuk menampilkan seluruh data keluhan
-    const req = {
-      method: 'get',
-      url: `https://api.lokesal.online/keluhan?${
-            this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
-            }&${
-                this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
-                }`,
-      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-      params: {kota: store.getState().namaKota}
-    };
-
-    axios(req)
-    .then((response) => {
-      this.setState({
-        'memuat': false,
-        'halaman': response.data.halaman,
-        'perHalaman': response.data.per_halaman,
-        'totalHalaman': response.data.total_halaman,
-        'keluhan': response.data.daftar_keluhan
-      })
-      console.log('ini respons', response.data)
-    })
+    this.dapatKeluhan()
   }
 
   // fungsi keluar dari akun admin
@@ -62,12 +76,18 @@ class BerandaAdmin extends Component {
     this.props.history.push("/masuk")
   }
 
-  // membuat header untuk tabel keluhan
-  renderTabelHeader = () => {
-    let header = Object.keys(this.state.keluhanHeader[0])
-    return header.map((key, index) => {
-       return <Th key={index}>{key.toUpperCase()}</Th>
-    })
+  ubahParamkeluhan = (param) => {
+    if(param === "diperbarui") {
+      this.state.urutkanDiperbarui === "diperbarui_naik"
+      ? this.setState({urutkanDiperbarui: "diperbarui_turun"})
+      : this.setState({urutkanDiperbarui: "diperbarui_naik"})
+    } else if(param === "dibuat") {
+      this.state.urutkanDibuat === "dibuat_naik"
+      ? this.setState({urutkanDibuat: "dibuat_turun"})
+      : this.setState({urutkanDibuat: "dibuat_naik"})
+    }
+    console.log("ini consol param keluhan oii")
+    this.dapatKeluhan();
   }
     
   render() {
@@ -87,7 +107,17 @@ class BerandaAdmin extends Component {
               <Table id='keluhan'>
                 <Thead>
                   <Tr>
-                    {this.renderTabelHeader()}
+                    <Th>ID</Th>
+                    <Th>NAMA</Th>
+                    <Th>STATUS</Th>
+                    <Th>DUKUNGAN</Th>
+                    <Th>KEPUASAN</Th>
+                    <Th>
+                      <span onclick={()=>this.ubahParamkeluhan("dibuat")}>
+                        DIBUAT
+                      </span>
+                    </Th>
+                    <Th onclick={()=>this.ubahParamkeluhan("diperbarui")}>DIPERBARUI</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -98,6 +128,7 @@ class BerandaAdmin extends Component {
                       namaBelakang={item.nama_belakang}
                       status={item.detail_keluhan.status}
                       dukungan={item.detail_keluhan.total_dukungan}
+                      kepuasan={item.detail_keluhan.kepuasan}
                       dibuat={item.detail_keluhan.dibuat}
                       diperbarui={item.detail_keluhan.diperbarui}
                     />

@@ -42,13 +42,14 @@ class Peta extends React.Component {
             }.json?access_token=${store.getState().mapboxKey}`,
             headers: { "Content-Type": "application/json" }
         };
-        axios(req)
+        await axios(req)
             .then(response => {
             this.setState({
                 lokasi: response.data.features[0].place_name,
             });
         });
 
+        console.log("ini lokasi", this.state.lokasi)
         // fungsi untuk memberikan posisi khusus di dalam peta
         let geojson = {
             type: 'FeatureCollection',
@@ -59,8 +60,8 @@ class Peta extends React.Component {
                     coordinates: [this.state.lng, this.state.lat]
                 },
                 properties: {
-                    title: 'LOKESAL',
-                    description: [this.state.lokasi]
+                    title: 'Lokasi',
+                    description: this.state.lokasi
                 }
             }]
         };
@@ -68,7 +69,7 @@ class Peta extends React.Component {
         // menambahkan penanda ke dalam peta
         geojson.features.forEach(function(marker) {
 
-            // create a HTML element for each feature
+            // membuat DOM elemen
             let el = document.createElement('div');
             el.className = 'marker';
         
@@ -81,7 +82,7 @@ class Peta extends React.Component {
             new mapboxgl.Marker(el)
                 .setLngLat(marker.geometry.coordinates)
                 .setPopup(new mapboxgl.Popup({ offset: 25 })
-                .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+                .setHTML('<h6>' + marker.properties.title + '</h6><p>' + marker.properties.description + '</p>'))
                 .addTo(map);
         });
     };
@@ -89,11 +90,9 @@ class Peta extends React.Component {
     render() {
         return (
             <div style={{textAlign:'center'}}>
-                <h6>
-                    <FaMapMarkerAlt style={{color:'red'}}/>{" "}{this.state.lokasi}
-                </h6>
                 <div>
-                    <div>Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom: {this.state.zoom}</div>
+                    <div>
+                    <FaMapMarkerAlt style={{color:'red', paddingBottom:"5px"}}/>Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom: {this.state.zoom}</div>
                     </div>
                 <div ref={el => this.mapContainer = el} className='mapContainer' />
             </div>
