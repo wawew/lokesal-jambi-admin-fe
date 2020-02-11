@@ -110,6 +110,7 @@ class Pengguna extends Component {
                                     diperbarui={item.diperbarui}
                                     aktif={item.aktif}
                                     terverifikasi={item.terverifikasi}
+                                    ktp={item.ktp}
                                 />
                                 ))}
                         </Tbody>

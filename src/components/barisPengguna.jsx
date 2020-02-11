@@ -1,18 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import { Container, Image, Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { Tr, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import moment from 'moment';
 import "moment-timezone";
 import "moment/locale/id";
-import { FaUserCheck } from "react-icons/fa";
-import { FaUserTimes } from "react-icons/fa";
-import { GoVerified } from "react-icons/go";
-import { GoUnverified } from "react-icons/go";
-import { FaEllipsisH } from "react-icons/fa";
-import Modal from 'react-bootstrap/Modal';
-import ButtonToolbar from 'react-bootstrap/Button';
+import { FaUserCheck, FaUserTimes, FaEllipsisH, FaIdCard } from "react-icons/fa";
+import { GoVerified, GoUnverified } from "react-icons/go";
 
 // component stateless untuk menampilkan isi masing-masing baris keluhan
 class BarisPengguna extends React.Component {
@@ -26,8 +22,8 @@ class BarisPengguna extends React.Component {
         aktif: this.props.aktif,
         terverifikasi: this.props.terverifikasi,
         memuat: false,
-        modalShow: false,
-        setModalShow: false
+        memuatVerif: false,
+        ktp: this.props.ktp
     }
 
     // update status pengguna menjadi aktif atau nonaktif
@@ -46,9 +42,26 @@ class BarisPengguna extends React.Component {
             })
         })
     }
-    
+
+    // update status pengguna menjadi aktif atau nonaktif
+    ubahVerifikasi = () => {
+        this.setState({memuat: true})
+        const reqAktif = {
+            method: 'post',
+            url: `https://api.lokesal.online/admin/pengguna/${this.state.id}`,
+            headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+            };
+        axios(reqAktif)
+        .then((response) => {
+            this.setState({
+                'memuat': false,
+                terverifikasi: response.data.terverifikasi
+            })
+            this.props.history.push("/pengguna")
+        })
+    }
+
     render() {
-        const [modalShow, setModalShow] = React.useState(false);
         return (
             <Tr >
                 <Td>{this.state.id}</Td>
@@ -76,24 +89,57 @@ class BarisPengguna extends React.Component {
                     }
                 </Td>
                 <Td>{
-                    this.state.memuat ?
+                    this.state.memuatVerif ?
                         <span><FaEllipsisH /></span>
                     : this.state.terverifikasi === true 
                         ? <span>
                             <GoVerified 
                             style={{cursor:"pointer", color:"green"}}/>
                             </span> 
-                        : <ButtonToolbar>
-                            <span><GoUnverified 
-                                onClick={() => setModalShow(true)}
-                                style={{cursor:"pointer", color:"red"}}/>
-                            </span>
-
-                            <Modal
-                                show={modalShow}
-                                onHide={() => setModalShow(false)}
-                            />
-                            </ButtonToolbar>
+                        : <React.Fragment>
+                            <button type="button" className="btn btn-link p-0" data-toggle="modal" data-target="#modalVerifikasi">
+                                    <GoUnverified 
+                                    style={{cursor:"pointer", color:"red"}}/>
+                            </button>
+                            <div className="modal fade" id="modalVerifikasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style={{textAlign:"center"}}>
+                                <div className="modal-dialog modal-dialog-centered modal-info" role="document">
+                                    <div className="modal-content text-center">
+                                        <div className="modal-header d-flex justify-content-center">
+                                            <h5 className="modal-title" id="exampleModalLongTitle"> Verifikasi KTP Pengguna</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            { this.state.ktp === ""
+                                            ? <Container>
+                                                <FaIdCard 
+                                                style={{
+                                                    width:"200px", 
+                                                    height:"200px", 
+                                                    color: "gray"
+                                                    }}
+                                                />
+                                                </Container>
+                                            : <Container>
+                                                <Image alt="foto sesudah" 
+                                                    src={this.state.ktp} 
+                                                    style={{width:"100%", height:"100%", objectFit:"cover"}}rounded/>
+                                                </Container>
+                                            }
+                                        </div>
+                                        <div className="modal-footer flex-center">
+                                            <Button
+                                            variant="success"
+                                            onClick={() => this.ubahVerifikasi()}
+                                            disabled={this.state.ktp === "" ? true : false}>
+                                            Verifikasi Pengguna
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </React.Fragment>
                     }
                 </Td>
             </Tr>
