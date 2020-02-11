@@ -9,6 +9,7 @@ import "moment-timezone";
 import "moment/locale/id";
 import { FaUserCheck, FaUserTimes, FaEllipsisH, FaIdCard } from "react-icons/fa";
 import { GoVerified, GoUnverified } from "react-icons/go";
+import swal from 'sweetalert';
 
 // component stateless untuk menampilkan isi masing-masing baris keluhan
 class BarisPengguna extends React.Component {
@@ -40,6 +41,11 @@ class BarisPengguna extends React.Component {
                 'memuat': false,
                 aktif: response.data.aktif
             })
+            swal({
+                title: "LOKESAL ADMIN",
+                text: "Perubahan status berhasil.",
+                icon: "success"
+            })
         })
     }
 
@@ -57,7 +63,12 @@ class BarisPengguna extends React.Component {
                 'memuat': false,
                 terverifikasi: response.data.terverifikasi
             })
-            this.props.history.push("/pengguna")
+        swal({
+            title: "LOKESAL ADMIN",
+            text: "Verifikasi KTP berhasil.",
+            icon: "success"
+        })
+        this.props.history.push("/pengguna")
         })
     }
 
@@ -97,11 +108,12 @@ class BarisPengguna extends React.Component {
                             style={{cursor:"pointer", color:"green"}}/>
                             </span> 
                         : <React.Fragment>
-                            <button type="button" className="btn btn-link p-0" data-toggle="modal" data-target="#modalVerifikasi">
+                            <button type="button" className="btn btn-link p-0" data-toggle="modal" data-target={`#modalVerifikasi${this.state.id}`}>
                                     <GoUnverified 
-                                    style={{cursor:"pointer", color:"red"}}/>
+                                    style={{color:"red"}}/>
                             </button>
-                            <div className="modal fade" id="modalVerifikasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style={{textAlign:"center"}}>
+
+                            <div className="modal fade" id={`modalVerifikasi${this.state.id}`} tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style={{textAlign:"center"}}>
                                 <div className="modal-dialog modal-dialog-centered modal-info" role="document">
                                     <div className="modal-content text-center">
                                         <div className="modal-header d-flex justify-content-center">
@@ -131,6 +143,7 @@ class BarisPengguna extends React.Component {
                                         <div className="modal-footer flex-center">
                                             <Button
                                             variant="success"
+                                            data-dismiss="modal"
                                             onClick={() => this.ubahVerifikasi()}
                                             disabled={this.state.ktp === "" ? true : false}>
                                             Verifikasi Pengguna
