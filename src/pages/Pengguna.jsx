@@ -6,11 +6,12 @@ import { store, actions } from "../store/store";
 import Header from "../components/header";
 import NavigasiAdmin from "../components/navigasi";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
-import { Spinner, Container } from "react-bootstrap";
+import { Spinner, Container, Col } from "react-bootstrap";
 import swal from "sweetalert";
 import BarisPengguna from "../components/barisPengguna";
 import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
 import '../styles/pengguna.css';
+import Form from 'react-bootstrap/Form';
 
 class Pengguna extends Component {
     // inisiasi variabel di state untuk digunakan dalam halaman pengguna
@@ -36,8 +37,8 @@ class Pengguna extends Component {
             params: {
                 kota: store.getState().namaKota,
                 kata_kunci: this.state.kataKunci,
-                status_aktif: this.state.statuAktif,
-                statu_terverifikasi: this.state.statuVerifikasi,
+                status_aktif: this.state.statusAktif,
+                status_terverifikasi: this.state.statusVerifikasi,
                 halaman: this.state.halaman,
                 per_halaman: this.state.perHalaman,
                 urutkan: this.state.urutkan,
@@ -125,6 +126,12 @@ class Pengguna extends Component {
         }
     }
 
+    // fungsi untuk melakukan filter tertentu
+    filter = event => {
+        this.setState({ [event.target.name]: event.target.value },
+        () => this.dapatPengguna());
+    };
+
     render() {
         return (
         <React.Fragment>
@@ -134,10 +141,53 @@ class Pengguna extends Component {
                 pengguna={true} 
                 komentar={false} 
             />
-            <Container style={{marginTop:'50px', marginBottom:'10px', textAlign:"center"}}>
+            <Container style={{marginTop:'50px', marginBottom:'10px'}}>
                 <h3 id='title'>Tabel Pengguna {store.getState().namaKota}</h3>
+                <Form.Row style={{marginLeft:"13px", marginRight:"13px", marginTop:"20px"}}>
+                    <Form.Group as={Col} controlId="formGridCity">
+                        <Form.Label style={{fontSize:"13px", marginBottom:"0px"}}>Cari Nama</Form.Label>
+                        <Form.Control 
+                            size="sm"
+                            id="kataKunci"
+                            name="kataKunci"
+                            onChange={event => this.filter(event)}
+                        />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridState">
+                        <Form.Label style={{fontSize:"13px", marginBottom:"0px"}}>Status</Form.Label>
+                        <Form.Control 
+                            as="select" 
+                            size="sm"
+                            id="statusAktif"
+                            name="statusAktif"
+                            onChange={event => this.filter(event)}
+                        >
+                            <option value="">Semua</option>
+                            <option value="aktif">Aktif</option>
+                            <option value="nonaktif">Nonaktif</option>
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridZip">
+                    <Form.Label style={{fontSize:"13px", marginBottom:"0px"}}>Verifikasi</Form.Label>
+                        <Form.Control 
+                            as="select" 
+                            size="sm"
+                            id="statusVerifikasi"
+                            name="statusVerifikasi"
+                            onChange={event => this.filter(event)}
+                        >
+                            <option value="">Semua</option>
+                            <option value="sudah">Terverifikasi</option>
+                            <option value="belum">Belum Terverifikasi</option>
+                        </Form.Control>
+                    </Form.Group>
+                </Form.Row>
                 {this.state.memuat ? (
-                    <Spinner animation="grow" variant="success" />
+                    <div style={{textAlign:"center"}}>
+                        <Spinner animation="grow" variant="success" />
+                  </div>
                 ) : (
                     <Table id='pengguna'>
                         <Thead>

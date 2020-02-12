@@ -3,28 +3,30 @@ import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
-import { Container, Spinner } from "react-bootstrap";
+import { Container, Spinner, Col } from "react-bootstrap";
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
 import BarisKeluhan from "../components/barisKeluhan";
+import Penomoran from "../components/penomoran";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
 import swal from "sweetalert";
 import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
 import '../styles/beranda.css';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import Form from 'react-bootstrap/Form';
 
 class BerandaAdmin extends Component {
   // inisiasi variabel di state untuk digunakan dalam halaman beranda
   state = {
     halaman: 1,
-    perHalaman: 10,
+    perHalaman: 3,
     totalHalaman: '',
     memuat: false,
     keluhan: [],
     totalKeluhan: '',
     status: '',
     kepuasan: '',
-    idKeluhan: '',
+    kataKunci: '',
     urutkan: '',
     sortir: ''
   }
@@ -38,9 +40,9 @@ class BerandaAdmin extends Component {
       headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
       params: {
         kota: store.getState().namaKota,
-        // status: this.state.status,
-        // kepuasan: this.state.kepuasan,
-        id_keluhan: this.state.idKeluhan,
+        status: this.state.status,
+        kepuasan: this.state.kepuasan,
+        kata_kunci: this.state.kataKunci,
         halaman: this.state.halaman,
         per_halaman: this.state.perHalaman,
         urutkan: this.state.urutkan,
@@ -127,20 +129,99 @@ class BerandaAdmin extends Component {
           )
     }
   }
+
+  // fungsi untuk melakukan filter tertentu
+  filter = event => {
+    this.setState({ [event.target.name]: event.target.value },
+    () => this.dapatKeluhan());
+  };
+
+  // fungsi untuk pegaturan pagination ke halaman sebelumnya
+  halamanSebelumnya = () => {
+    this.setState({ halaman: this.state.halaman-1 }, 
+    () => this.dapatKeluhan())
+  };
+
+  // fungsi untuk pegaturan pagination ke halaman selanjutnya
+  halamanSelanjutnya = () => {
+    this.setState({ halaman: this.state.halaman+1 }, 
+    () => this.dapatKeluhan())
+  };
+
+  // fungsi untuk pegaturan pagination ke halaman pertama
+  halamanPertama = () => {
+    this.setState({ halaman: 1 }, 
+    () => this.dapatKeluhan())
+  };
+
+  // fungsi untuk pegaturan pagination ke halaman terakhir
+  halamanTerakhir = () => {
+    this.setState({ halaman: this.state.totalHalaman }, 
+    () => this.dapatKeluhan())
+  };
     
   render() {
       return (
       <React.Fragment>
-          <Header penangananKeluar={this.penangananKeluar}/>
-          <NavigasiAdmin 
-            keluhan={true} 
-            pengguna={false} 
-            komentar={false} 
-          />
-          <Container style={{marginTop:'50px', marginBottom:'10px', textAlign:"center"}}>
-            <h3 id='title'>Tabel Keluhan Jambi</h3>
+        <Header penangananKeluar={this.penangananKeluar}/>
+        <NavigasiAdmin 
+          keluhan={true} 
+          pengguna={false} 
+          komentar={false} 
+        />
+        <Container style={{marginTop:'50px', marginBottom:'10px'}}>
+          <h3 id='title'>Tabel Keluhan Jambi</h3>
+          <Form.Row style={{marginLeft:"13px", marginRight:"13px", marginTop:"20px"}}>
+            <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label 
+                  style={{fontSize:"13px", marginBottom:"0px"}}>
+                    ID atau Nama
+                </Form.Label>
+                <Form.Control 
+                    size="sm"
+                    id="kataKunci"
+                    name="kataKunci"
+                    placeholder="cari id atau nama"
+                    onChange={event => this.filter(event)}
+                />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridState">
+                <Form.Label style={{fontSize:"13px", marginBottom:"0px"}}>Status</Form.Label>
+                <Form.Control 
+                    as="select" 
+                    size="sm"
+                    id="status"
+                    name="status"
+                    onChange={event => this.filter(event)}
+                >
+                  <option value="">Semua</option>
+                  <option value="diterima">Diterima</option>
+                  <option value="diproses">Diproses</option>
+                  <option value="selesai">Selesai</option>
+                </Form.Control>
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridZip">
+            <Form.Label style={{fontSize:"13px", marginBottom:"0px"}}>Kepuasan</Form.Label>
+                <Form.Control 
+                    as="select" 
+                    size="sm"
+                    id="kepuasan"
+                    name="kepuasan"
+                    onChange={event => this.filter(event)}
+                >
+                  <option value="">Semua</option>
+                  <option value="puas">Puas</option>
+                  <option value="tidak_puas">Kurang Puas</option>
+                  <option value="belum">Belum Diulas</option>
+                </Form.Control>
+              </Form.Group>
+          </Form.Row>
             {this.state.memuat ? (
-              <Spinner animation="grow" variant="success" />
+              <div style={{textAlign:"center"}}>
+                <Spinner animation="grow" variant="success" />
+              </div>
             ) : (
               <Table id='keluhan'>
                 <Thead>
@@ -201,6 +282,14 @@ class BerandaAdmin extends Component {
               </Table>
             )}
         </Container>
+        <Penomoran 
+          sebelumnya={this.halamanSebelumnya}
+          selanjutnya={this.halamanSelanjutnya}
+          pertama={this.halamanPertama}
+          terakhir={this.halamanTerakhir}
+          halaman={this.state.halaman}
+          totalHalaman={this.state.totalHalaman}
+        />
       </React.Fragment>
     );
   }

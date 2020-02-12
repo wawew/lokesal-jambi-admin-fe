@@ -27,7 +27,13 @@ const BarisKeluhan = props => {
         </span>
       </Td>
       <Td>{props.dukungan+""}</Td>
-      <Td>{props.kepuasan+""}</Td>
+      <Td>
+        {props.kepuasan === true 
+        ? "Puas"
+        : props.kepuasan === false
+          ? "Kurang Puas"
+          : "Belum Diulas"}
+      </Td>
       <Td>{moment(`${props.dibuat}Z`)
             .tz("Asia/Jakarta")
             .format("LL")}{", "}

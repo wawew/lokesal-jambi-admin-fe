@@ -6,10 +6,11 @@ import { store, actions } from "../store/store";
 import Header from "../components/header";
 import NavigasiAdmin from "../components/navigasi";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
-import { Spinner, Container } from "react-bootstrap";
+import { Spinner, Container, Col } from "react-bootstrap";
 import swal from "sweetalert";
 import BarisKomentar from "../components/barisKomentar";
 import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
+import Form from 'react-bootstrap/Form';
 import '../styles/komentar.css';
 
 class Komentar extends Component {
@@ -126,6 +127,12 @@ class Komentar extends Component {
         }
     }
 
+    // fungsi untuk melakukan filter tertentu
+    filter = event => {
+        this.setState({ [event.target.name]: event.target.value },
+        () => this.dapatKomentar());
+    };
+
     render() {
         return (
         <React.Fragment>
@@ -135,10 +142,24 @@ class Komentar extends Component {
                 pengguna={false} 
                 komentar={true} 
             />
-            <Container style={{marginTop:'50px', marginBottom:'10px', textAlign:"center"}}>
+            <Container style={{marginTop:'50px', marginBottom:'10px'}}>
                 <h3 id='title'>Tabel Komentar {store.getState().namaKota}</h3>
+                <Form.Row style={{marginLeft:"13px", marginRight:"13px", marginTop:"20px"}}>
+                    <Form.Group as={Col} controlId="formGridCity">
+                        <Form.Control 
+                            size="sm"
+                            id="idKomentar"
+                            name="idKomentar"
+                            placeholder="Cari ID"
+                            style={{width:"70px", textAlign:"center"}}
+                            onChange={event => this.filter(event)}
+                        />
+                    </Form.Group>
+                </Form.Row>
                 {this.state.memuat ? (
-                    <Spinner animation="grow" variant="success" />
+                    <div style={{textAlign:"center"}}>
+                        <Spinner animation="grow" variant="success" />
+                    </div>
                 ) : (
                     <Table id='komentar'>
                         <Thead>
