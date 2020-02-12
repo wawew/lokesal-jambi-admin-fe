@@ -9,6 +9,7 @@ import Header from "../components/header";
 import BarisKeluhan from "../components/barisKeluhan";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
 import swal from "sweetalert";
+import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
 import '../styles/beranda.css';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
@@ -18,18 +19,19 @@ class BerandaAdmin extends Component {
     halaman: 1,
     perHalaman: 10,
     totalHalaman: '',
-    memuat: true,
+    memuat: false,
     keluhan: [],
-    urutkanDibuat: 'dibuat_turun',
-    urutkanDiperbarui: 'diperbarui_turun',
     totalKeluhan: '',
     status: '',
     kepuasan: '',
-    idKeluhan: ''
+    idKeluhan: '',
+    urutkan: '',
+    sortir: ''
   }
 
   // fungsi untuk menampilkan data keluhan
-  dapatKeluhan = () => {
+  dapatKeluhan = async() => {
+    this.setState({memuat: true})
     const req = {
       method: 'get',
       url: 'https://api.lokesal.online/keluhan',
@@ -41,12 +43,12 @@ class BerandaAdmin extends Component {
         id_keluhan: this.state.idKeluhan,
         halaman: this.state.halaman,
         per_halaman: this.state.perHalaman,
-        urutkan_dibuat: this.state.urutkanDibuat,
-        urutkan_diperbarui: this.state.urutkanDiperbarui
+        urutkan: this.state.urutkan,
+        sortir: this.state.sortir
       }
     };
 
-    axios(req)
+    await axios(req)
     .then((response) => {
       this.setState({
         memuat: false,
@@ -76,18 +78,54 @@ class BerandaAdmin extends Component {
     this.props.history.push("/masuk")
   }
 
-  ubahParamkeluhan = (param) => {
+  // fungsi mengubah param untuk kebutuhan urutkan dan sortir
+  ubahParamKeluhan = (param) => {
     if(param === "diperbarui") {
-      this.state.urutkanDiperbarui === "diperbarui_naik"
-      ? this.setState({urutkanDiperbarui: "diperbarui_turun"})
-      : this.setState({urutkanDiperbarui: "diperbarui_naik"})
+      this.state.sortir === ""
+      ? this.setState(
+          {urutkan: "diperbarui", sortir: "naik"}, 
+          () => this.dapatKeluhan()
+        )
+      : this.state.sortir === "turun"
+        ? this.setState(
+            {urutkan: "diperbarui", sortir: "naik"}, 
+            () => this.dapatKeluhan()
+          )
+        : this.setState(
+            {urutkan: "diperbarui", sortir: "turun"}, 
+            () => this.dapatKeluhan()
+          )
     } else if(param === "dibuat") {
-      this.state.urutkanDibuat === "dibuat_naik"
-      ? this.setState({urutkanDibuat: "dibuat_turun"})
-      : this.setState({urutkanDibuat: "dibuat_naik"})
+      this.state.sortir === ""
+      ? this.setState(
+          {urutkan: "dibuat", sortir: "naik"}, 
+          () => this.dapatKeluhan()
+        )
+      : this.state.sortir === "turun"
+        ? this.setState(
+            {urutkan: "dibuat", sortir: "naik"}, 
+            () => this.dapatKeluhan()
+          )
+        : this.setState(
+            {urutkan: "dibuat", sortir: "turun"}, 
+            () => this.dapatKeluhan()
+          )
+    } else if(param === "dukungan") {
+      this.state.sortir === ""
+      ? this.setState(
+          {urutkan: "dukungan", sortir: "naik"}, 
+          () => this.dapatKeluhan()
+        )
+      : this.state.sortir === "turun"
+        ? this.setState(
+            {urutkan: "dukungan", sortir: "naik"}, 
+            () => this.dapatKeluhan()
+          )
+        : this.setState(
+            {urutkan: "dukungan", sortir: "turun"}, 
+            () => this.dapatKeluhan()
+          )
     }
-    console.log("ini consol param keluhan oii")
-    this.dapatKeluhan();
   }
     
   render() {
@@ -110,14 +148,40 @@ class BerandaAdmin extends Component {
                     <Th>ID</Th>
                     <Th>NAMA</Th>
                     <Th>STATUS</Th>
-                    <Th>DUKUNGAN</Th>
-                    <Th>KEPUASAN</Th>
-                    <Th>
-                      <span onclick={()=>this.ubahParamkeluhan("dibuat")}>
-                        DIBUAT
-                      </span>
+                    <Th
+                      onClick={()=>this.ubahParamKeluhan("dukungan")}
+                      style={{cursor:"pointer"}}>
+                        DUKUNGAN 
+                        {this.state.urutkan !== "dukungan"
+                        ? <TiArrowUnsorted style={{paddingBottom:"3px"}}/>
+                        : this.state.sortir === "naik" && this.state.urutkan === "dukungan"
+                          ? <TiArrowSortedUp style={{paddingBottom:"3px"}}/>
+                          : <TiArrowSortedDown style={{paddingBottom:"3px"}}/>
+                        }
                     </Th>
-                    <Th onclick={()=>this.ubahParamkeluhan("diperbarui")}>DIPERBARUI</Th>
+                    <Th>KEPUASAN</Th>
+                    <Th
+                      onClick={()=>this.ubahParamKeluhan("dibuat")}
+                      style={{cursor:"pointer"}}>
+                        DIBUAT 
+                        {this.state.urutkan !== "dibuat"
+                        ? <TiArrowUnsorted style={{paddingBottom:"3px"}}/>
+                        : this.state.sortir === "naik" && this.state.urutkan === "dibuat"
+                          ? <TiArrowSortedUp style={{paddingBottom:"3px"}}/>
+                          : <TiArrowSortedDown style={{paddingBottom:"3px"}}/>
+                        }
+                    </Th>
+                    <Th 
+                      onClick={()=>this.ubahParamKeluhan("diperbarui")}
+                      style={{cursor:"pointer"}}>
+                        DIPERBARUI 
+                        {this.state.urutkan !== "diperbarui"
+                        ? <TiArrowUnsorted style={{paddingBottom:"3px"}}/>
+                        : this.state.sortir === "naik" && this.state.urutkan === "diperbarui"
+                          ? <TiArrowSortedUp style={{paddingBottom:"3px"}}/>
+                          : <TiArrowSortedDown style={{paddingBottom:"3px"}}/>
+                        }
+                    </Th>
                   </Tr>
                 </Thead>
                 <Tbody>

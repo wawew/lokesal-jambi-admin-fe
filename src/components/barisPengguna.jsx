@@ -19,6 +19,7 @@ class BarisPengguna extends React.Component {
         namaBelakang: this.props.namaBelakang,
         email: this.props.email,
         telepon: this.props.telepon,
+        dibuat: this.props.dibuat,
         diperbarui: this.props.diperbarui,
         aktif: this.props.aktif,
         terverifikasi: this.props.terverifikasi,
@@ -79,11 +80,6 @@ class BarisPengguna extends React.Component {
                 <Td><strong>{this.state.namaDepan+' '+this.state.namaBelakang}</strong></Td>
                 <Td>{this.state.email}</Td>
                 <Td>{this.state.telepon}</Td>
-                <Td>{moment(`${this.state.diperbarui}Z`)
-                        .tz("Asia/Jakarta")
-                        .format("LL")}{", "}
-                    {moment(`${this.state.diperbarui}Z`).format("HH:mm")} WIB
-                </Td>
                 <Td>{
                     this.state.memuat ?
                         <span><FaEllipsisH /></span>
@@ -154,6 +150,14 @@ class BarisPengguna extends React.Component {
                             </div>
                         </React.Fragment>
                     }
+                </Td>
+                <Td>{moment(`${this.state.dibuat}Z`)
+                        .tz("Asia/Jakarta")
+                        .format("ll")}
+                </Td>
+                <Td>{moment(`${this.state.diperbarui}Z`)
+                        .tz("Asia/Jakarta")
+                        .format("ll")}
                 </Td>
             </Tr>
         )}
