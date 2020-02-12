@@ -18,7 +18,7 @@ const StatusKeluhan = props => {
             {moment(`${props.diperbarui}Z`)
                 .tz("Asia/Jakarta")
                 .format("LL")}{", "}
-            {moment(`${props.diperbarui}Z`).format("hh:mm")} WIB
+            {moment(`${props.diperbarui}Z`).format("HH:mm")} WIB
           </span>
         </Col>
         <Col xs="auto" 

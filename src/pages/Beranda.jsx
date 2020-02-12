@@ -19,7 +19,7 @@ class BerandaAdmin extends Component {
   // inisiasi variabel di state untuk digunakan dalam halaman beranda
   state = {
     halaman: 1,
-    perHalaman: 3,
+    perHalaman: 10,
     totalHalaman: '',
     memuat: false,
     keluhan: [],
@@ -85,46 +85,46 @@ class BerandaAdmin extends Component {
     if(param === "diperbarui") {
       this.state.sortir === ""
       ? this.setState(
-          {urutkan: "diperbarui", sortir: "naik"}, 
+          {halaman: 1, urutkan: "diperbarui", sortir: "naik"}, 
           () => this.dapatKeluhan()
         )
       : this.state.sortir === "turun"
         ? this.setState(
-            {urutkan: "diperbarui", sortir: "naik"}, 
+            {halaman: 1, urutkan: "diperbarui", sortir: "naik"}, 
             () => this.dapatKeluhan()
           )
         : this.setState(
-            {urutkan: "diperbarui", sortir: "turun"}, 
+            {halaman: 1, urutkan: "diperbarui", sortir: "turun"}, 
             () => this.dapatKeluhan()
           )
     } else if(param === "dibuat") {
       this.state.sortir === ""
       ? this.setState(
-          {urutkan: "dibuat", sortir: "naik"}, 
+          {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
           () => this.dapatKeluhan()
         )
       : this.state.sortir === "turun"
         ? this.setState(
-            {urutkan: "dibuat", sortir: "naik"}, 
+            {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
             () => this.dapatKeluhan()
           )
         : this.setState(
-            {urutkan: "dibuat", sortir: "turun"}, 
+            {halaman: 1, urutkan: "dibuat", sortir: "turun"}, 
             () => this.dapatKeluhan()
           )
     } else if(param === "dukungan") {
       this.state.sortir === ""
       ? this.setState(
-          {urutkan: "dukungan", sortir: "naik"}, 
+          {halaman: 1, urutkan: "dukungan", sortir: "naik"}, 
           () => this.dapatKeluhan()
         )
       : this.state.sortir === "turun"
         ? this.setState(
-            {urutkan: "dukungan", sortir: "naik"}, 
+            {halaman: 1, urutkan: "dukungan", sortir: "naik"}, 
             () => this.dapatKeluhan()
           )
         : this.setState(
-            {urutkan: "dukungan", sortir: "turun"}, 
+            {halaman: 1, urutkan: "dukungan", sortir: "turun"}, 
             () => this.dapatKeluhan()
           )
     }
@@ -132,8 +132,10 @@ class BerandaAdmin extends Component {
 
   // fungsi untuk melakukan filter tertentu
   filter = event => {
-    this.setState({ [event.target.name]: event.target.value },
-    () => this.dapatKeluhan());
+    this.setState({ 
+      halaman: 1,
+      [event.target.name]: event.target.value },
+      () => this.dapatKeluhan());
   };
 
   // fungsi untuk pegaturan pagination ke halaman sebelumnya
@@ -203,7 +205,7 @@ class BerandaAdmin extends Component {
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridZip">
-            <Form.Label style={{fontSize:"13px", marginBottom:"0px"}}>Kepuasan</Form.Label>
+            <Form.Label style={{fontSize:"13px", marginBottom:"0px"}}>Ulasan</Form.Label>
                 <Form.Control 
                     as="select" 
                     size="sm"
@@ -240,7 +242,7 @@ class BerandaAdmin extends Component {
                           : <TiArrowSortedDown style={{paddingBottom:"3px"}}/>
                         }
                     </Th>
-                    <Th>KEPUASAN</Th>
+                    <Th>ULASAN</Th>
                     <Th
                       onClick={()=>this.ubahParamKeluhan("dibuat")}
                       style={{cursor:"pointer"}}>
@@ -272,7 +274,7 @@ class BerandaAdmin extends Component {
                       namaDepan={item.nama_depan}
                       namaBelakang={item.nama_belakang}
                       status={item.detail_keluhan.status}
-                      dukungan={item.detail_keluhan.total_dukungan}
+                      dukungan={item.total_dukungan}
                       kepuasan={item.detail_keluhan.kepuasan}
                       dibuat={item.detail_keluhan.dibuat}
                       diperbarui={item.detail_keluhan.diperbarui}

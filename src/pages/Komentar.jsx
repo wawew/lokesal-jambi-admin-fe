@@ -12,6 +12,7 @@ import BarisKomentar from "../components/barisKomentar";
 import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
 import Form from 'react-bootstrap/Form';
 import '../styles/komentar.css';
+import Penomoran from "../components/penomoran";
 
 class Komentar extends Component {
     // inisiasi variabel di state untuk digunakan dalam halaman komentar
@@ -97,31 +98,31 @@ class Komentar extends Component {
         if(param === "laporan") {
         this.state.sortir === ""
         ? this.setState(
-            {urutkan: "laporan", sortir: "naik"}, 
+            {halaman: 1, urutkan: "laporan", sortir: "naik"}, 
             () => this.dapatKomentar()
             )
         : this.state.sortir === "turun"
             ? this.setState(
-                {urutkan: "laporan", sortir: "naik"}, 
+                {halaman: 1, urutkan: "laporan", sortir: "naik"}, 
                 () => this.dapatKomentar()
             )
             : this.setState(
-                {urutkan: "laporan", sortir: "turun"}, 
+                {halaman: 1, urutkan: "laporan", sortir: "turun"}, 
                 () => this.dapatKomentar()
             )
         } else if(param === "dibuat") {
         this.state.sortir === ""
         ? this.setState(
-            {urutkan: "dibuat", sortir: "naik"}, 
+            {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
             () => this.dapatKomentar()
             )
         : this.state.sortir === "turun"
             ? this.setState(
-                {urutkan: "dibuat", sortir: "naik"}, 
+                {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
                 () => this.dapatKomentar()
             )
             : this.setState(
-                {urutkan: "dibuat", sortir: "turun"}, 
+                {halaman: 1, urutkan: "dibuat", sortir: "turun"}, 
                 () => this.dapatKomentar()
             )
         }
@@ -129,8 +130,34 @@ class Komentar extends Component {
 
     // fungsi untuk melakukan filter tertentu
     filter = event => {
-        this.setState({ [event.target.name]: event.target.value },
-        () => this.dapatKomentar());
+        this.setState({ 
+            halaman: 1,
+            [event.target.name]: event.target.value },
+            () => this.dapatKomentar());
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman sebelumnya
+    halamanSebelumnya = () => {
+        this.setState({ halaman: this.state.halaman-1 }, 
+        () => this.dapatKomentar())
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman selanjutnya
+    halamanSelanjutnya = () => {
+        this.setState({ halaman: this.state.halaman+1 }, 
+        () => this.dapatKomentar())
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman pertama
+    halamanPertama = () => {
+        this.setState({ halaman: 1 }, 
+        () => this.dapatKomentar())
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman terakhir
+    halamanTerakhir = () => {
+        this.setState({ halaman: this.state.totalHalaman }, 
+        () => this.dapatKomentar())
     };
 
     render() {
@@ -198,6 +225,14 @@ class Komentar extends Component {
                     </Table>
                 )}
             </Container>
+            <Penomoran 
+                sebelumnya={this.halamanSebelumnya}
+                selanjutnya={this.halamanSelanjutnya}
+                pertama={this.halamanPertama}
+                terakhir={this.halamanTerakhir}
+                halaman={this.state.halaman}
+                totalHalaman={this.state.totalHalaman}
+            />
         </React.Fragment>
         );
     }

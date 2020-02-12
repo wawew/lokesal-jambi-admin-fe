@@ -6,25 +6,49 @@ import { FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight } from
 // component stateless untuk menampilkan isi detail keluhan dengan sesuai status keluhan
 const Penomoran = props => {
   return (
-    <Container style={{textAlign:"center"}}>
+    <Container style={{textAlign:"center", marginBottom:"30px"}}>
         <h6>
-            <FaAngleDoubleLeft 
-                style={{paddingBottom:"3px", cursor:"pointer"}}
-                onClick={() => props.pertama()}
-            />
-            <FaAngleLeft 
-                style={{paddingBottom:"3px", cursor:"pointer"}}
-                onClick={() => props.sebelumnya()}
-            />
+            {props.halaman === 1
+            ? <React.Fragment>
+                <FaAngleDoubleLeft 
+                    style={{paddingBottom:"3px", color:"gray"}}
+                />
+                <FaAngleLeft 
+                    style={{paddingBottom:"3px", color:"gray"}}
+                />
+                </React.Fragment>
+            : <React.Fragment>
+                <FaAngleDoubleLeft 
+                    style={{paddingBottom:"3px", cursor:"pointer", color:"green"}}
+                    onClick={() => props.pertama()}
+                />
+                <FaAngleLeft 
+                    style={{paddingBottom:"3px", cursor:"pointer", color:"green"}}
+                    onClick={() => props.sebelumnya()}
+                />
+                </React.Fragment>
+            }
             {" "}Halaman {props.halaman} dari {props.totalHalaman}{" "}
-            <FaAngleRight 
-                style={{paddingBottom:"3px", cursor:"pointer"}}
-                onClick={() => props.selanjutnya()}
-            />
-            <FaAngleDoubleRight 
-                style={{paddingBottom:"3px", cursor:"pointer"}}
-                onClick={() => props.terakhir()}
-            />
+            { props.halaman === props.totalHalaman
+            ? <React.Fragment>
+                <FaAngleRight
+                    style={{paddingBottom:"3px", color:"gray"}}
+                />
+                <FaAngleDoubleRight
+                    style={{paddingBottom:"3px", color:"gray"}}
+                />
+                </React.Fragment>
+            : <React.Fragment>
+                <FaAngleRight 
+                    style={{paddingBottom:"3px", cursor:"pointer", color:"green"}}
+                    onClick={() => props.selanjutnya()}
+                />
+                <FaAngleDoubleRight 
+                    style={{paddingBottom:"3px", cursor:"pointer", color:"green"}}
+                    onClick={() => props.terakhir()}
+                />
+                </React.Fragment>
+            }
         </h6>
     </Container>
   );
