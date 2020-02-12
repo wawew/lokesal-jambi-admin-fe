@@ -6,28 +6,25 @@ import { store, actions } from "../store/store";
 import Header from "../components/header";
 import NavigasiAdmin from "../components/navigasi";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
-import { Spinner, Container } from "react-bootstrap";
+import { Spinner, Container, Col } from "react-bootstrap";
 import swal from "sweetalert";
 import BarisKomentar from "../components/barisKomentar";
+import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
+import Form from 'react-bootstrap/Form';
 import '../styles/komentar.css';
 
 class Komentar extends Component {
     // inisiasi variabel di state untuk digunakan dalam halaman komentar
     state = {
-        halaman: '',
-        perHalaman: '',
+        halaman: 1,
+        perHalaman: 10,
         totalHalaman: '',
         memuat: false,
         totalKomentar: '',
-        komentar: [],
-        komentarHeader: [{ 
-            ID: '',  
-            Nama: '',
-            Email: '', 
-            Laporan: '', 
-            Diperbarui: '',
-            Hapus: ''
-        }]
+        idKomentar: '',
+        urutkan: '',
+        sortir: '',
+        komentar: []
     }
 
     // fungsi menampilkan baris komentar
@@ -42,7 +39,7 @@ class Komentar extends Component {
                     namaBelakang={item.nama_belakang}
                     email={item.email}
                     isi={item.detail_komentar.isi}
-                    diperbarui={item.detail_komentar.diperbarui}
+                    dibuat={item.detail_komentar.dibuat}
                     dilaporkan={item.detail_komentar.total_dilaporkan}
                 />
             ))
@@ -54,24 +51,27 @@ class Komentar extends Component {
         this.setState({memuat: true})
         const req = {
             method: 'get',
-            url: `https://api.lokesal.online/admin/keluhan/komentar?${
-                    this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
-                    }&${
-                        this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
-                        }`,
+            url: 'https://api.lokesal.online/admin/keluhan/komentar',
             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-            params: {kota: store.getState().namaKota}
-            };
+            params: {
+                kota: store.getState().namaKota,
+                id_komentar: this.state.idKomentar,
+                urutkan: this.state.urutkan,
+                sortir: this.state.sortir,
+                halaman: this.state.halaman,
+                per_halaman: this.state.perHalaman
+            }
+        };
     
         await axios(req)
             .then((response) => {
             this.setState({
-                'halaman': response.data.halaman,
-                'perHalaman': response.data.per_halaman,
-                'totalHalaman': response.data.totaal_halaman,
-                'totalKomentar': response.data.total_komentar,
-                'komentar': response.data.daftar_komentar,
-                'memuat': false
+                memuat: false,
+                halaman: response.data.halaman,
+                perHalaman: response.data.per_halaman,
+                totalHalaman: response.data.total_halaman,
+                totalKomentar: response.data.total_komentar,
+                komentar: response.data.daftar_komentar
             })
         })
     }
@@ -91,15 +91,48 @@ class Komentar extends Component {
         swal("LOKESAL ADMIN", "Admin keluar dari aplikasi.", "success");
         this.props.history.push("/masuk")
     }
-
-    // membuat header untuk tabel komentar
-    renderTabelHeader() {
-        let header = Object.keys(this.state.komentarHeader[0])
-        return header.map((key, index) => {
-        return <Th key={index}>{key.toUpperCase()}</Th>
-        })
+     
+    // fungsi mengubah param untuk kebutuhan urutkan dan sortir
+    ubahParamKomentar = (param) => {
+        if(param === "laporan") {
+        this.state.sortir === ""
+        ? this.setState(
+            {urutkan: "laporan", sortir: "naik"}, 
+            () => this.dapatKomentar()
+            )
+        : this.state.sortir === "turun"
+            ? this.setState(
+                {urutkan: "laporan", sortir: "naik"}, 
+                () => this.dapatKomentar()
+            )
+            : this.setState(
+                {urutkan: "laporan", sortir: "turun"}, 
+                () => this.dapatKomentar()
+            )
+        } else if(param === "dibuat") {
+        this.state.sortir === ""
+        ? this.setState(
+            {urutkan: "dibuat", sortir: "naik"}, 
+            () => this.dapatKomentar()
+            )
+        : this.state.sortir === "turun"
+            ? this.setState(
+                {urutkan: "dibuat", sortir: "naik"}, 
+                () => this.dapatKomentar()
+            )
+            : this.setState(
+                {urutkan: "dibuat", sortir: "turun"}, 
+                () => this.dapatKomentar()
+            )
+        }
     }
-        
+
+    // fungsi untuk melakukan filter tertentu
+    filter = event => {
+        this.setState({ [event.target.name]: event.target.value },
+        () => this.dapatKomentar());
+    };
+
     render() {
         return (
         <React.Fragment>
@@ -109,15 +142,54 @@ class Komentar extends Component {
                 pengguna={false} 
                 komentar={true} 
             />
-            <Container style={{marginTop:'50px', marginBottom:'10px', textAlign:"center"}}>
+            <Container style={{marginTop:'50px', marginBottom:'10px'}}>
                 <h3 id='title'>Tabel Komentar {store.getState().namaKota}</h3>
+                <Form.Row style={{marginLeft:"13px", marginRight:"13px", marginTop:"20px"}}>
+                    <Form.Group as={Col} controlId="formGridCity">
+                        <Form.Control 
+                            size="sm"
+                            id="idKomentar"
+                            name="idKomentar"
+                            placeholder="Cari ID"
+                            style={{width:"70px", textAlign:"center"}}
+                            onChange={event => this.filter(event)}
+                        />
+                    </Form.Group>
+                </Form.Row>
                 {this.state.memuat ? (
-                    <Spinner animation="grow" variant="success" />
+                    <div style={{textAlign:"center"}}>
+                        <Spinner animation="grow" variant="success" />
+                    </div>
                 ) : (
                     <Table id='komentar'>
                         <Thead>
                             <Tr>
-                            {this.renderTabelHeader()}
+                                <Th>ID</Th>
+                                <Th>NAMA</Th>
+                                <Th>EMAIL</Th>
+                                <Th 
+                                onClick={()=>this.ubahParamKomentar("laporan")}
+                                style={{cursor:"pointer"}}>
+                                    LAPORAN 
+                                    {this.state.urutkan !== "laporan"
+                                        ? <TiArrowUnsorted style={{paddingBottom:"3px"}}/>
+                                        : this.state.sortir === "naik" && this.state.urutkan === "laporan"
+                                        ? <TiArrowSortedUp style={{paddingBottom:"3px"}}/>
+                                        : <TiArrowSortedDown style={{paddingBottom:"3px"}}/>
+                                    }
+                                </Th>
+                                <Th 
+                                onClick={()=>this.ubahParamKomentar("dibuat")}
+                                style={{cursor:"pointer"}}>
+                                    DIBUAT 
+                                    {this.state.urutkan !== "dibuat"
+                                        ? <TiArrowUnsorted style={{paddingBottom:"3px"}}/>
+                                        : this.state.sortir === "naik" && this.state.urutkan === "dibuat"
+                                        ? <TiArrowSortedUp style={{paddingBottom:"3px"}}/>
+                                        : <TiArrowSortedDown style={{paddingBottom:"3px"}}/>
+                                    }
+                                </Th>
+                                <Th>HAPUS</Th>
                             </Tr>
                         </Thead>
                         <Tbody>

@@ -18,7 +18,7 @@ class BarisPengguna extends React.Component {
         namaBelakang: this.props.namaBelakang,
         email: this.props.email,
         isi: this.props.isi,
-        diperbarui: this.props.diperbarui,
+        dibuat: this.props.dibuat,
         dilaporkan: this.props.dilaporkan
     }
 
@@ -51,10 +51,10 @@ class BarisPengguna extends React.Component {
                 <Td><strong>{this.state.namaDepan+' '+this.state.namaBelakang}</strong></Td>
                 <Td>{this.state.email}</Td>
                 <Td>{this.state.dilaporkan+""}</Td>
-                <Td>{moment(`${this.state.diperbarui}Z`)
+                <Td>{moment(`${this.state.dibuat}Z`)
                         .tz("Asia/Jakarta")
                         .format("LL")}{", "}
-                    {moment(`${this.state.diperbarui}Z`).format("HH:mm")} WIB
+                    {moment(`${this.state.dibuat}Z`).format("HH:mm")} WIB
                 </Td>
                 <Td>
                     <React.Fragment>

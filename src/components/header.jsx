@@ -10,7 +10,7 @@ import '../styles/header.css';
 // component stateless untuk menampilkan header di setiap halaman
 const Header = props => {
   return (
-    <Container fluid className="header">
+    <Container className="header">
       <Row style={{
         marginTop:'30px', 
         marginBottom:'30px'

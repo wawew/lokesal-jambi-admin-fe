@@ -22,19 +22,19 @@ const NavigasiAdmin = props => {
               className={props.keluhan ? "navbar-aktif" : "navbar-nonaktif"}
               onClick={() => props.history.push("/")}
             >
-              <h6><GiBookmarklet style={{paddingBottom:"1px"}}/> Keluhan</h6>
+              <h5><GiBookmarklet style={{paddingBottom:"1px"}}/> Keluhan</h5>
             </Col>
             <Col xs={12} md={4}
               className={props.pengguna ? "navbar-aktif" : "navbar-nonaktif"} 
               onClick={() => props.history.push("/pengguna")}
             >
-              <h6><FaUsersCog style={{paddingBottom:"4px"}}/> Pengguna</h6>
+              <h5><FaUsersCog style={{paddingBottom:"4px"}}/> Pengguna</h5>
             </Col>
             <Col xs={12} md={4}
               className={props.komentar ? "navbar-aktif" : "navbar-nonaktif"}
               onClick={() => props.history.push("/komentar")}
             >
-              <h6><FaComments style={{paddingBottom:"4px"}}/> Komentar</h6>
+              <h5><FaComments style={{paddingBottom:"4px"}}/> Komentar</h5>
             </Col>
           </Row>
         </Navbar.Collapse>
