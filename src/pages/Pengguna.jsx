@@ -12,6 +12,7 @@ import BarisPengguna from "../components/barisPengguna";
 import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
 import '../styles/pengguna.css';
 import Form from 'react-bootstrap/Form';
+import Penomoran from "../components/penomoran";
 
 class Pengguna extends Component {
     // inisiasi variabel di state untuk digunakan dalam halaman pengguna
@@ -81,46 +82,46 @@ class Pengguna extends Component {
         if(param === "diperbarui") {
         this.state.sortir === ""
         ? this.setState(
-            {urutkan: "diperbarui", sortir: "naik"}, 
+            {halaman: 1, urutkan: "diperbarui", sortir: "naik"}, 
             () => this.dapatPengguna()
             )
         : this.state.sortir === "turun"
             ? this.setState(
-                {urutkan: "diperbarui", sortir: "naik"}, 
+                {halaman: 1, urutkan: "diperbarui", sortir: "naik"}, 
                 () => this.dapatPengguna()
             )
             : this.setState(
-                {urutkan: "diperbarui", sortir: "turun"}, 
+                {halaman: 1, urutkan: "diperbarui", sortir: "turun"}, 
                 () => this.dapatPengguna()
             )
         } else if(param === "dibuat") {
         this.state.sortir === ""
         ? this.setState(
-            {urutkan: "dibuat", sortir: "naik"}, 
+            {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
             () => this.dapatPengguna()
             )
         : this.state.sortir === "turun"
             ? this.setState(
-                {urutkan: "dibuat", sortir: "naik"}, 
+                {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
                 () => this.dapatPengguna()
             )
             : this.setState(
-                {urutkan: "dibuat", sortir: "turun"}, 
+                {halaman: 1, urutkan: "dibuat", sortir: "turun"}, 
                 () => this.dapatPengguna()
             )
         } else if(param === "nama") {
         this.state.sortir === ""
         ? this.setState(
-            {urutkan: "nama", sortir: "naik"}, 
+            {halaman: 1, urutkan: "nama", sortir: "naik"}, 
             () => this.dapatPengguna()
             )
         : this.state.sortir === "turun"
             ? this.setState(
-                {urutkan: "nama", sortir: "naik"}, 
+                {halaman: 1, urutkan: "nama", sortir: "naik"}, 
                 () => this.dapatPengguna()
             )
             : this.setState(
-                {urutkan: "nama", sortir: "turun"}, 
+                {halaman: 1, urutkan: "nama", sortir: "turun"}, 
                 () => this.dapatPengguna()
             )
         }
@@ -128,8 +129,34 @@ class Pengguna extends Component {
 
     // fungsi untuk melakukan filter tertentu
     filter = event => {
-        this.setState({ [event.target.name]: event.target.value },
-        () => this.dapatPengguna());
+        this.setState({
+            halaman: 1,
+            [event.target.name]: event.target.value },
+            () => this.dapatPengguna());
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman sebelumnya
+    halamanSebelumnya = () => {
+        this.setState({ halaman: this.state.halaman-1 }, 
+        () => this.dapatPengguna())
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman selanjutnya
+    halamanSelanjutnya = () => {
+        this.setState({ halaman: this.state.halaman+1 }, 
+        () => this.dapatPengguna())
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman pertama
+    halamanPertama = () => {
+        this.setState({ halaman: 1 }, 
+        () => this.dapatPengguna())
+    };
+
+    // fungsi untuk pegaturan pagination ke halaman terakhir
+    halamanTerakhir = () => {
+        this.setState({ halaman: this.state.totalHalaman }, 
+        () => this.dapatPengguna())
     };
 
     render() {
@@ -252,6 +279,14 @@ class Pengguna extends Component {
                     </Table>
                 )}
             </Container>
+            <Penomoran 
+                sebelumnya={this.halamanSebelumnya}
+                selanjutnya={this.halamanSelanjutnya}
+                pertama={this.halamanPertama}
+                terakhir={this.halamanTerakhir}
+                halaman={this.state.halaman}
+                totalHalaman={this.state.totalHalaman}
+            />
         </React.Fragment>
         );
     }
