@@ -30,35 +30,58 @@ class Komentar extends Component {
         }]
     }
 
+    // fungsi menampilkan baris komentar
+    mapKomentar = () => {
+        console.log('ini respons komentar', this.state.komentar)
+        return (
+            this.state.komentar.map((item) => (
+                <BarisKomentar 
+                    dapatKomentar={this.dapatKomentar}
+                    id={item.detail_komentar.id} 
+                    namaDepan={item.nama_depan}
+                    namaBelakang={item.nama_belakang}
+                    email={item.email}
+                    isi={item.detail_komentar.isi}
+                    diperbarui={item.detail_komentar.diperbarui}
+                    dilaporkan={item.detail_komentar.total_dilaporkan}
+                />
+            ))
+        )
+    }
+    
+    // fungsi untuk menampilkan seluruh data komentar
+    dapatKomentar = async () => {
+        this.setState({memuat: true})
+        const req = {
+            method: 'get',
+            url: `https://api.lokesal.online/admin/keluhan/komentar?${
+                    this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
+                    }&${
+                        this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
+                        }`,
+            headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+            params: {kota: store.getState().namaKota}
+            };
+    
+        await axios(req)
+            .then((response) => {
+            this.setState({
+                'halaman': response.data.halaman,
+                'perHalaman': response.data.per_halaman,
+                'totalHalaman': response.data.totaal_halaman,
+                'totalKomentar': response.data.total_komentar,
+                'komentar': response.data.daftar_komentar,
+                'memuat': false
+            })
+        })
+    }
+
     componentDidMount = () => {
         // jika admin tidak memiliki token, maka akan diarahkan untuk ke halaman '/masuk'
         if (localStorage.getItem("token") === null) {
         this.props.history.push("/masuk");
         }
-
-        // fungsi untuk menampilkan seluruh data komentar
-        const req = {
-        method: 'get',
-        url: `https://api.lokesal.online/admin/keluhan/komentar?${
-                this.state.halaman === '' ? '' : `halaman=${this.state.halaman}`
-                }&${
-                    this.state.perHalaman === '' ? '' : `per_halaman=${this.state.perHalaman}`
-                    }`,
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-        params: {kota: store.getState().namaKota}
-        };
-
-        axios(req)
-        .then((response) => {
-        this.setState({
-            'halaman': response.data.halaman,
-            'perHalaman': response.data.per_halaman,
-            'totalHalaman': response.data.totaal_halaman,
-            'totalKomentar': response.data.total_komentar,
-            'komentar': response.data.daftar_komentar
-        })
-        console.log('ini respons komentar', response.data)
-        })
+        this.dapatKomentar()
     }
 
      // fungsi keluar dari akun admin
@@ -98,17 +121,7 @@ class Komentar extends Component {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {this.state.komentar.map((item) => (
-                                <BarisKomentar 
-                                    id={item.detail_komentar.id} 
-                                    namaDepan={item.nama_depan}
-                                    namaBelakang={item.nama_belakang}
-                                    email={item.email}
-                                    isi={item.detail_komentar.isi}
-                                    diperbarui={item.detail_komentar.diperbarui}
-                                    dilaporkan={item.detail_komentar.total_dilaporkan}
-                                />
-                                ))}
+                            {this.mapKomentar()}
                         </Tbody>
                     </Table>
                 )}

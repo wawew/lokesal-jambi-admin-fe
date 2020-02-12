@@ -35,12 +35,12 @@ class BarisPengguna extends React.Component {
             this.setState({
                 'memuat': false
             })
-        swal({
-            title: "LOKESAL ADMIN",
-            text: "Komentar berhasil dihapus",
-            icon: "success"
-        })
-        this.props.history.push("/")
+            swal({
+                title: "LOKESAL ADMIN",
+                text: "Komentar berhasil dihapus",
+                icon: "success"
+            })
+            this.props.dapatKomentar()
         })
     }
 
