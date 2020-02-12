@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import { Tr, Td } from 'react-super-responsive-table';
+import { GiPlainCircle } from "react-icons/gi";
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import moment from 'moment';
 import "moment-timezone";
@@ -15,8 +16,18 @@ const BarisKeluhan = props => {
     >
       <Td>{props.id}</Td>
       <Td><strong>{props.namaDepan+' '+props.namaBelakang}</strong></Td>
-      <Td>{props.status}</Td>
+      <Td>
+        <span>
+          <GiPlainCircle style={{paddingBottom:"3px"}} className={
+            props.status === "diterima" ? "text-danger" 
+            : props.status === "diproses" ? "text-warning"
+            : "text-success"
+          }/> 
+          {" "}{props.status}
+        </span>
+      </Td>
       <Td>{props.dukungan+""}</Td>
+      <Td>{props.kepuasan+""}</Td>
       <Td>{moment(`${props.dibuat}Z`)
             .tz("Asia/Jakarta")
             .format("LL")}{", "}
