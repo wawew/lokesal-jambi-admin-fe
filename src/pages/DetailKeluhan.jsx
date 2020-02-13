@@ -4,7 +4,7 @@ import { Spinner, Container, Row, Col, Form, Button, Image } from "react-bootstr
 import axios from 'axios';
 import NavigasiAdmin from "../components/navigasi";
 import Header from "../components/header";
-import StatusKeluhan from "../components/keluhan";
+import StatusKeluhan from "../components/statusKeluhan";
 import Peta from "../components/peta";
 import swal from "sweetalert";
 import { FaFileImage } from "react-icons/fa";
@@ -221,15 +221,21 @@ class DetailKeluhan extends Component {
                 <Row>
                     <Col xs={12} md={12} style={{textAlign:'center', marginTop:"50px"}}>
                         <h6 style={{textAlign:"center"}}>Foto Sebelum</h6>
-                        <Image style={{ 
-                            width: "100%", 
-                            height: "100%",  
+                        {this.state.detailKeluhan.foto_sebelum === ""
+                        ? <div className="tanggapan-foto-kosong" style={{width:"50%"}}>
+                            <FaFileImage style={{
+                                marginTop:"125px"
+                                }}/>
+                            </div>
+                        : <Image style={{ 
+                            width: "50%", 
+                            height: "300px",  
                             objectFit:'cover'
                         }} 
                         src={this.state.detailKeluhan.foto_sebelum} 
                         alt="foto sebelum"
                         fluid rounded
-                        />
+                        />}
                     </Col>
                 </Row>
             </Container> 
@@ -350,7 +356,7 @@ class DetailKeluhan extends Component {
                         <Col>
                         <Form onSubmit={event => event.preventDefault()}>
                             <Form.Group>
-                            <Form.Label>Masukkan Tanggapan Admin</Form.Label>
+                            <Form.Label><strong>Masukkan tanggapan admin:</strong></Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows="5"
@@ -361,16 +367,12 @@ class DetailKeluhan extends Component {
                             />
                             </Form.Group>
                             {this.state.memuat ? (
-                            <Container>
-                                <Row>
-                                <Col>
+                                <div style={{textAlign:"center"}}>
                                     <Spinner animation="grow" variant="success" />
-                                </Col>
-                                </Row>
-                            </Container>
+                                </div>
                             ) : (
                             <Button
-                                variant="success"
+                                variant= {this.state.detailKeluhan.status === "diterima" ? "warning" : "success"}
                                 type="submit"
                                 onClick={() => this.kirimTanggapan()}
                             >

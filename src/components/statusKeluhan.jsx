@@ -29,19 +29,19 @@ const StatusKeluhan = props => {
           }}
         >
           <span>
-            <strong>STATUS: </strong>
+            <strong>Status: </strong>
             <GiPlainCircle style={{paddingBottom:"5px"}} className={
               props.status === "diterima" ? "text-danger" 
               : props.status === "diproses" ? "text-warning"
               : "text-success"
             }/> 
-            KELUHAN {props.status}
+            Keluhan {props.status}
           </span>
         </Col>
       </Row>
       <Row style={{marginTop:"30px"}}>
         <Col xs={12}>
-          <span><strong>ISI KELUHAN: </strong></span>
+          <span><strong>Isi keluhan: </strong></span>
         </Col>
         <Col xs={12}>
           <span>{props.isi}</span>
