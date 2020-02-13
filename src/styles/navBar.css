@@ -1,0 +1,11 @@
+.navbar-aktif {
+    color: green!important;
+}
+
+.navbar-nonaktif {
+    color: grey!important;
+}
+
+.navbar-nonaktif :hover {
+    color: black!important;
+}

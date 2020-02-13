@@ -3,8 +3,7 @@ import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
-import Header from "../components/header";
-import NavigasiAdmin from "../components/navigasi";
+import NavbarAdmin from "../components/navBar";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
 import { Spinner, Container, Col } from "react-bootstrap";
 import swal from "sweetalert";
@@ -162,11 +161,12 @@ class Pengguna extends Component {
     render() {
         return (
         <React.Fragment>
-            <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin 
+            <NavbarAdmin 
+                beranda={false}
                 keluhan={false} 
                 pengguna={true} 
-                komentar={false} 
+                komentar={false}
+                penangananKeluar={this.penangananKeluar} 
             />
             <Container style={{marginTop:'50px', marginBottom:'10px'}}>
                 <h3 id='title'>Tabel Pengguna {store.getState().namaKota}</h3>

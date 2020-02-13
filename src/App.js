@@ -5,13 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 function App() {
   return (
-    <Container fluid>
-      <Row>
-        <Col className="App">
-          <MainRoute />
-        </Col>
-      </Row>
-    </Container>
+    <MainRoute />
   );
 }
 

@@ -4,22 +4,21 @@ import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
 import { Container, Spinner, Col } from "react-bootstrap";
-import NavigasiAdmin from "../components/navigasi";
-import Header from "../components/header";
 import BarisKeluhan from "../components/barisKeluhan";
 import Penomoran from "../components/penomoran";
+import NavbarAdmin from "../components/navBar";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
 import swal from "sweetalert";
 import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
+import Form from 'react-bootstrap/Form';
 import '../styles/keluhan.css';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import Form from 'react-bootstrap/Form';
 
 class Keluhan extends Component {
     // inisiasi variabel di state untuk digunakan dalam halaman beranda
     state = {
         halaman: 1,
-        perHalaman: 10,
+        perHalaman: 5,
         totalHalaman: '',
         memuat: false,
         keluhan: [],
@@ -165,11 +164,12 @@ class Keluhan extends Component {
     render() {
         return (
         <React.Fragment>
-            <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin 
-            keluhan={true} 
-            pengguna={false} 
-            komentar={false} 
+            <NavbarAdmin 
+                beranda={false}
+                keluhan={true} 
+                pengguna={false} 
+                komentar={false}
+                penangananKeluar={this.penangananKeluar} 
             />
             <Container style={{marginTop:'50px', marginBottom:'10px'}}>
             <h3 id='title'>Tabel Keluhan Jambi</h3>

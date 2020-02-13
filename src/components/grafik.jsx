@@ -27,16 +27,22 @@ class Grafik extends React.Component {
     }
   render() {
     return (
-        <Container>
+        <Container style={{marginTop: "30px"}}>
             <Row>
-                <Col md={6} xs={12}
-                    style={{
-                        textAlign:"center", 
-                        marginTop:"30px"
-                        }}
-                >
-                    <h5><strong>Data Status Keluhan</strong></h5>
-                    <div>
+                <Col md={6} xs={12}>
+                    <Container>
+                    <Row>
+                        <Col>
+                            <h5 style={{
+                                textAlign:"center", 
+                                marginTop:"30px"
+                            }}><strong>Data Status Keluhan</strong></h5>
+                        </Col>
+                    </Row>
+                    </Container>
+                    <Container>
+                    <Row>
+                    <Col xs="auto">
                     <PieChart width={300} height={300} style={{marginLeft:"auto", marginRight:"auto"}}>
                         <Pie
                         data={this.state.data}
@@ -54,38 +60,55 @@ class Grafik extends React.Component {
                         }
                         </Pie>
                     </PieChart>
-                    </div>
-                    <h6><GiPlainCircle style={{color:"green", paddingBottom:"3px"}}/> Laporan Selesai</h6>
-                    <h6><GiPlainCircle style={{color:"rgb(255,180,0)", paddingBottom:"3px"}}/> Sedang Diproses</h6>
-                    <h6><GiPlainCircle style={{color:"red", paddingBottom:"3px"}}/> Keluhan Diterima</h6>
+                    </Col>
+                    <Col style={{minHeight: "70px"}}>
+                        <div style={{position: "absolute", top: "50%", transform: "translateY(-50%)"}}>
+                        <h6><GiPlainCircle style={{color:"red", paddingBottom:"3px"}}/> Keluhan Diterima</h6>
+                        <h6><GiPlainCircle style={{color:"rgb(255,180,0)", paddingBottom:"3px"}}/> Sedang Diproses</h6>
+                        <h6><GiPlainCircle style={{color:"green", paddingBottom:"3px"}}/> Laporan Selesai</h6>
+                        </div>
+                    </Col>
+                    </Row>
+                    </Container>
                 </Col>
-                <Col md={6} xs={12}
-                    style={{
-                        textAlign:"center", 
-                        marginTop:"30px"
-                        }}
-                >
-                    <h5><strong>Data Ulasan Keluhan</strong></h5>
-                    <PieChart width={300} height={300} style={{marginLeft:"auto", marginRight:"auto"}}>
-                        <Pie
-                        data={this.state.dataUlasan}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={renderCustomizedLabel}
-                        outerRadius={130}
-                        fill="#8884d8"
-                        dataKey="value"
-                        >
-                            <Tooltip />
-                        {
-                            this.state.dataUlasan.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                        }
-                        </Pie>
-                    </PieChart>
-                    <h6><GiPlainCircle style={{color:"green", paddingBottom:"3px"}}/> Puas</h6>
-                    <h6><GiPlainCircle style={{color:"rgb(255,180,0)", paddingBottom:"3px"}}/> Belum Diulas</h6>
-                    <h6><GiPlainCircle style={{color:"red", paddingBottom:"3px"}}/> Kurang Puas</h6>
+                <Col md={6} xs={12}>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <h5 style={{textAlign:"center", marginTop:"30px"}}>
+                                    <strong>Data Ulasan Keluhan</strong>
+                                </h5>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs="auto">
+                                <PieChart width={300} height={300} style={{marginLeft:"auto", marginRight:"auto"}}>
+                                    <Pie
+                                    data={this.state.dataUlasan}
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={false}
+                                    label={renderCustomizedLabel}
+                                    outerRadius={130}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                    >
+                                        <Tooltip />
+                                    {
+                                        this.state.dataUlasan.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+                                    }
+                                    </Pie>
+                                </PieChart>
+                            </Col>
+                            <Col style={{minHeight: "70px"}}>
+                                <div style={{position: "absolute", top: "50%", transform: "translateY(-50%)"}}>
+                                    <h6><GiPlainCircle style={{color:"green", paddingBottom:"3px"}}/> Puas</h6>
+                                    <h6><GiPlainCircle style={{color:"red", paddingBottom:"3px"}}/> Kurang Puas</h6>
+                                    <h6><GiPlainCircle style={{color:"rgb(255,180,0)", paddingBottom:"3px"}}/> Belum Diulas</h6>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
                 </Col>
             </Row>
         </Container>

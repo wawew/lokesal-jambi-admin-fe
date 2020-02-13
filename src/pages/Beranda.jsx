@@ -3,8 +3,7 @@ import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
-import NavigasiAdmin from "../components/navigasi";
-import Header from "../components/header";
+import NavbarAdmin from "../components/navBar";
 import swal from "sweetalert";
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import Grafik from "../components/grafik";
@@ -113,12 +112,12 @@ class BerandaAdmin extends Component {
   render() {
       return (
       <React.Fragment>
-        <Header penangananKeluar={this.penangananKeluar}/>
-        <NavigasiAdmin 
+        <NavbarAdmin 
           beranda={true}
           keluhan={false} 
           pengguna={false} 
-          komentar={false} 
+          komentar={false}
+          penangananKeluar={this.penangananKeluar} 
         />
         {this.state.memuat ?
         <div></div> :
