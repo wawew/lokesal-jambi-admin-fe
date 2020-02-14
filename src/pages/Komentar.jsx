@@ -3,8 +3,7 @@ import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
-import Header from "../components/header";
-import NavigasiAdmin from "../components/navigasi";
+import NavbarAdmin from "../components/navBar";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
 import { Spinner, Container, Col } from "react-bootstrap";
 import swal from "sweetalert";
@@ -30,7 +29,6 @@ class Komentar extends Component {
 
     // fungsi menampilkan baris komentar
     mapKomentar = () => {
-        console.log('ini respons komentar', this.state.komentar)
         return (
             this.state.komentar.map((item) => (
                 <BarisKomentar 
@@ -163,11 +161,12 @@ class Komentar extends Component {
     render() {
         return (
         <React.Fragment>
-            <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin 
+            <NavbarAdmin 
+                beranda={false}
                 keluhan={false} 
                 pengguna={false} 
-                komentar={true} 
+                komentar={true}
+                penangananKeluar={this.penangananKeluar} 
             />
             <Container style={{marginTop:'50px', marginBottom:'10px'}}>
                 <h3 id='title'>Tabel Komentar {store.getState().namaKota}</h3>

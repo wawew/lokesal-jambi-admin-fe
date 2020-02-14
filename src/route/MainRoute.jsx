@@ -8,6 +8,7 @@ import Keluhan from '../pages/Keluhan';
 import DetailKeluhan from '../pages/DetailKeluhan';
 import Pengguna from '../pages/Pengguna';
 import Komentar from '../pages/Komentar';
+import NotFound from '../pages/NotFound';
 
 const MainRoute = () => {
     return (
@@ -20,6 +21,7 @@ const MainRoute = () => {
                     <Route exact path='/keluhan/:id' component={DetailKeluhan} />
                     <Route exact path='/pengguna' component={Pengguna} />
                     <Route exact path='/komentar' component={Komentar} />
+                    <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>
         </Provider>

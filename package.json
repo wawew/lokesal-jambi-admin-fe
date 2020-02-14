@@ -15,11 +15,13 @@
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-bootstrap-table": "^4.3.1",
+    "react-csv": "^1.1.2",
     "react-dom": "^16.12.0",
     "react-icons": "^3.9.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.1",
     "react-super-responsive-table": "^5.1.1",
+    "recharts": "^2.0.0-beta.1",
     "sweetalert": "^2.1.2",
     "unistore": "^3.5.1"
   },
