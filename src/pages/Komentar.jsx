@@ -29,7 +29,6 @@ class Komentar extends Component {
 
     // fungsi menampilkan baris komentar
     mapKomentar = () => {
-        console.log('ini respons komentar', this.state.komentar)
         return (
             this.state.komentar.map((item) => (
                 <BarisKomentar 

@@ -1,6 +1,5 @@
 import createStore from 'unistore';
-// import axios from 'axios';
-// import swal from 'sweetalert';
+import Credentials from "../credentials.json";
 
 // inisiasi variabel store yang akan digunakan
 const initialState = {
@@ -8,8 +7,8 @@ const initialState = {
     logoKota: "https://jambikota.go.id/new/wp-content/uploads/Logojmb_edited2.jpg",
     namaKota: "Jambi",
     tajukKota: "Tanah Pilih Pesako Betuah",
-    mapboxUrl: "https://api.mapbox.com/geocoding/v5/mapbox.places/",
-    mapboxKey: "pk.eyJ1Ijoic3VtYXJub3dpbGx5OTQiLCJhIjoiY2s2NHo0YzlzMDMwMjNscXdzYmo3dDV4cyJ9.bOcW5ZPZob_quslf4RP0sw",
+    mapboxUrl: Credentials.mapboxUrl,
+    mapboxKey: Credentials.mapboxKey
 };
 
 export const store = createStore(initialState);
@@ -18,6 +17,5 @@ export const actions = store => ({
     // Mendefinisikan fungsi perubahan masukan yang terjadi
     perubahanMasukan: (state, event) => {
         store.setState({[event.target.name]: event.target.value});
-        console.log('cek input', event.target.name, event.target.value);
     },
 })

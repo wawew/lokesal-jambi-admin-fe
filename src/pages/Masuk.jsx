@@ -46,7 +46,6 @@ class Masuk extends Component {
             })
             this.props.history.push("/")
             }
-            console.log('response data', response.data);
         })
         .catch((error) => {
             swal({

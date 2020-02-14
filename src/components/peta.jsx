@@ -6,7 +6,7 @@ import { connect } from "unistore/react";
 import { actions, store } from "../store/store";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import '../styles/peta.css';
- 
+
 mapboxgl.accessToken = store.getState().mapboxKey;
  
 class Peta extends React.Component {
@@ -48,8 +48,6 @@ class Peta extends React.Component {
                 lokasi: response.data.features[0].place_name,
             });
         });
-
-        console.log("ini lokasi", this.state.lokasi)
         // fungsi untuk memberikan posisi khusus di dalam peta
         let geojson = {
             type: 'FeatureCollection',

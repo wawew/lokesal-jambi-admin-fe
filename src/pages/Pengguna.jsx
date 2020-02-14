@@ -56,7 +56,6 @@ class Pengguna extends Component {
                 totalPengguna: response.data.total_pengguna,
                 pengguna: response.data.daftar_pengguna
             })
-            console.log('ini respons pengguna', response.data)
         })
     }
 

@@ -18,7 +18,7 @@ class Keluhan extends Component {
     // inisiasi variabel di state untuk digunakan dalam halaman beranda
     state = {
         halaman: 1,
-        perHalaman: 5,
+        perHalaman: 10,
         totalHalaman: '',
         memuat: false,
         keluhan: [],

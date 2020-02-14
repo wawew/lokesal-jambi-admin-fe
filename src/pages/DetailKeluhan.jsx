@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { storage } from "../config/firebase";
 import { Spinner, Container, Row, Col, Form, Button, Image } from "react-bootstrap";
 import axios from 'axios';
-import NavigasiAdmin from "../components/navigasi";
-import Header from "../components/header";
+import NavbarAdmin from "../components/navBar";
 import StatusKeluhan from "../components/statusKeluhan";
 import Peta from "../components/peta";
 import swal from "sweetalert";
@@ -59,7 +58,6 @@ class DetailKeluhan extends Component {
     };
 
     kirimTanggapan = () => {
-        console.log('isi tanggapan', this.state.isiTanggapan)
         const idKeluhan = this.props.match.params.id
         this.setState({ memuat: true });
         if (this.state.isiTanggapan === "") {
@@ -194,7 +192,6 @@ class DetailKeluhan extends Component {
                 longitude: response.data.longitude, 
                 latitude: response.data.latitude,
                 memuat: false })
-            console.log('ini respons', response.data)
         })
     }
 
@@ -209,11 +206,12 @@ class DetailKeluhan extends Component {
     render() {
         return (
         <React.Fragment>
-            <Header penangananKeluar={this.penangananKeluar}/>
-            <NavigasiAdmin 
+            <NavbarAdmin 
+                beranda={false}
                 keluhan={true} 
                 pengguna={false} 
-                komentar={false} 
+                komentar={false}
+                penangananKeluar={this.penangananKeluar} 
             />
 
             {this.state.detailKeluhan.status === "diterima" ? (
