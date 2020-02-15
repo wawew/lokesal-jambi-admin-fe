@@ -90,7 +90,7 @@ class Peta extends React.Component {
             <div style={{textAlign:'center'}}>
                 <div>
                     <div>
-                    <FaMapMarkerAlt style={{color:'red', paddingBottom:"5px"}}/>Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom: {this.state.zoom}</div>
+                    <FaMapMarkerAlt style={{color:'red', paddingBottom:"5px"}}/>Longitude: {this.props.longitude} | Latitude: {this.props.latitude}</div>
                     </div>
                 <div ref={el => this.mapContainer = el} className='mapContainer' />
             </div>
