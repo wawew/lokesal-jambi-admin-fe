@@ -120,7 +120,7 @@ class DetailKeluhan extends Component {
                                     namaFoto: "",
                                     memuat: false
                                 });
-                                this.props.history.push(`/`);
+                                this.props.history.push("/keluhan");
                             })
                             .catch(() => {
                                 this.setState({ memuat: false });
@@ -164,7 +164,7 @@ class DetailKeluhan extends Component {
                         namaFoto: "",
                         memuat: false
                     });
-                    this.props.history.push(`/`);
+                    this.props.history.push("/keluhan");
                 })
                 .catch(() => {
                     this.setState({ memuat: false });
@@ -208,7 +208,7 @@ class DetailKeluhan extends Component {
         <React.Fragment>
             <NavbarAdmin 
                 beranda={false}
-                keluhan={true} 
+                keluhan={false} 
                 pengguna={false} 
                 komentar={false}
                 penangananKeluar={this.penangananKeluar} 
@@ -242,7 +242,13 @@ class DetailKeluhan extends Component {
                     <Row>
                         <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
                             <h6 style={{textAlign:"center"}}>Foto Sebelum</h6>
-                            <Image style={{ 
+                            {this.state.detailKeluhan.foto_sebelum === ""
+                            ? <div className="tanggapan-foto-kosong" style={{width:"100%"}}>
+                                <FaFileImage style={{
+                                    marginTop:"125px"
+                                    }}/>
+                                </div>
+                            : <Image style={{ 
                                 width: "100%", 
                                 height: "300px",  
                                 objectFit:'cover'
@@ -250,7 +256,7 @@ class DetailKeluhan extends Component {
                             src={this.state.detailKeluhan.foto_sebelum} 
                             alt="foto sebelum"
                             fluid rounded
-                            />
+                            />}
                         </Col>
                         <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
                             <Container fluid className="tanggapan-foto">
@@ -295,25 +301,38 @@ class DetailKeluhan extends Component {
                 <Container>
                     <Row>
                         <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
-                            <h6 style={{textAlign:"center"}}>Foto Sebelum</h6>
-                            <Image style={{ 
-                            width: "100%", 
-                            height: "300px",  
-                            objectFit:'cover'
+                        <h6 style={{textAlign:"center"}}>Foto Sebelum</h6>
+                            {this.state.detailKeluhan.foto_sebelum === ""
+                            ? <div className="tanggapan-foto-kosong" style={{width:"100%"}}>
+                                <FaFileImage style={{
+                                    marginTop:"125px"
+                                    }}/>
+                                </div>
+                            : <Image style={{ 
+                                width: "100%", 
+                                height: "300px",  
+                                objectFit:'cover'
                             }} 
                             src={this.state.detailKeluhan.foto_sebelum} 
                             alt="foto sebelum"
                             fluid rounded
-                            />
+                            />}
                         </Col>
                         <Col xs={12} md={6} style={{textAlign:'center', marginTop:"50px"}}>
                             <Container fluid className="tanggapan-foto">
                                 <Row>
                                     <Col>
                                     <h6 style={{textAlign:"center"}}>Foto Sesudah</h6>
-                                        <div className="tanggapan-foto-kosong">
-                                            <Image alt="foto sesudah" src={this.state.detailKeluhan.foto_sesudah} />
+                                    {this.state.detailKeluhan.foto_sesudah === ""
+                                    ? <div className="tanggapan-foto-kosong" style={{width:"100%"}}>
+                                        <FaFileImage style={{
+                                            marginTop:"125px"
+                                            }}/>
+                                    </div>
+                                    : <div className="tanggapan-foto-kosong" style={{width:"100%"}}>
+                                        <Image alt="foto sesudah" src={this.state.detailKeluhan.foto_sesudah} />
                                         </div>
+                                    }
                                     </Col>
                                 </Row>
                             </Container>
@@ -325,6 +344,7 @@ class DetailKeluhan extends Component {
             <StatusKeluhan 
                 namaDepan={this.state.detailKeluhan.nama_depan}
                 namaBelakang={this.state.detailKeluhan.nama_belakang}
+                dibuat={this.state.detailKeluhan.dibuat}
                 diperbarui={this.state.detailKeluhan.diperbarui}
                 status={this.state.detailKeluhan.status}
                 isi={this.state.detailKeluhan.isi}

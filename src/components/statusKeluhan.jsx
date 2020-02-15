@@ -14,6 +14,13 @@ const StatusKeluhan = props => {
         <Col xs="auto">
           <span>Nama: <strong>{props.namaDepan+' '+props.namaBelakang}</strong></span>
           <br />
+          <span>Dibuat:{" "}
+            {moment(`${props.dibuat}Z`)
+                .tz("Asia/Jakarta")
+                .format("LL")}{", "}
+            {moment(`${props.dibuat}Z`).format("HH:mm")} WIB
+          </span>
+          <br />
           <span>Diperbarui:{" "}
             {moment(`${props.diperbarui}Z`)
                 .tz("Asia/Jakarta")
