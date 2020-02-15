@@ -1,7 +1,7 @@
 #!/bin/bash
 
 eval "$(ssh-agent -s)" &&
-ssh-add -k ~/.ssh/lokesal_jambi_admin_fe_rsa &&
+ssh-add -k ~/.ssh/id_rsa &&
 cd /var/www/lokesal-jambi-admin-fe
 git checkout release
 git pull

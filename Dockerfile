@@ -1,4 +1,4 @@
-FROM node:12.2.0-alpine
+FROM node:current-alpine
 MAINTAINER Wildan Firdaus "firdaus@alterra.id"
 RUN mkdir -p /var/www/lokesal-jambi-admin-fe
 COPY . /var/www/lokesal-jambi-admin-fe
