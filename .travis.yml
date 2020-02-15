@@ -1,0 +1,40 @@
+sudo: required
+services:
+- docker
+os:
+- linux
+env:
+  global:
+  - DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME}"
+  - DOCKERHUB_ORG="${DOCKERHUB_ORG}"
+branches:
+  only:
+  - release
+before_install:
+- openssl aes-256-cbc -K $encrypted_4b347bf83baa_key -iv $encrypted_4b347bf83baa_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 deploy_rsa
+- ssh-add deploy_rsa
+- docker login -u "${DOCKERHUB_USER}" -p "${DOCKERHUB_PASS}"
+script:
+- sudo chmod +x deploy.sh
+- sudo chmod 600 deploy_rsa
+after_script:
+- sed -i -e 's|mapboxUrlValue|'"${mapboxUrl}"'|g' ./src/credentials.json
+- sed -i -e 's|INI_EMAIL_LOKESALValue|'"${INI_EMAIL_LOKESAL}"'|g' ./src/credentials.json
+- sed -i -e 's|mapboxKeyValue|'"${mapboxKey}"'|g' ./src/credentials.json
+- sed -i -e 's|apiKeyValue|'"${apiKey}"'|g' ./src/credentials.json
+- sed -i -e 's|authDomainValue|'"${authDomain}"'|g' ./src/credentials.json
+- sed -i -e 's|databaseURLValue|'"${databaseURL}"'|g' ./src/credentials.json
+- sed -i -e 's|projectIdValue|'"${projectId}"'|g' ./src/credentials.json
+- sed -i -e 's|storageBucketValue|'"${storageBucket}"'|g' ./src/credentials.json
+- sed -i -e 's|messagingSenderIdValue|'"${messagingSenderId}"'|g' ./src/credentials.json
+- sed -i -e 's|appIdValue|'"${appId}"'|g' ./src/credentials.json
+- sed -i -e 's|measurementIdValue|'"${measurementId}"'|g' ./src/credentials.json
+- docker build -t ${DOCKERHUB_ORG}/${DOCKER_IMAGE_NAME}:jambi-admin-fe-${TRAVIS_BUILD_ID} .
+- docker push ${DOCKERHUB_ORG}/${DOCKER_IMAGE_NAME}:jambi-admin-fe-${TRAVIS_BUILD_ID}
+- docker tag ${DOCKERHUB_ORG}/${DOCKER_IMAGE_NAME}:jambi-admin-fe-${TRAVIS_BUILD_ID} ${DOCKERHUB_USER}/${DOCKER_IMAGE_NAME}:jambi-admin-fe-latest
+- docker push ${DOCKERHUB_ORG}/${DOCKER_IMAGE_NAME}:jambi-admin-fe-latest
+- ssh-keyscan -H $SSH_IP >> ~/.ssh/known_hosts
+- ssh -v -i deploy_rsa $SSH_USER@$SSH_IP DIR=$ROOT_DIR 'bash -s' < deploy.sh
