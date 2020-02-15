@@ -5,11 +5,10 @@ import { connect } from "unistore/react";
 import { store, actions } from "../store/store";
 import NavbarAdmin from "../components/navBar";
 import { Table, Thead, Tbody, Tr, Th } from 'react-super-responsive-table';
-import { Spinner, Container, Col } from "react-bootstrap";
+import { Spinner, Container } from "react-bootstrap";
 import swal from "sweetalert";
 import BarisKomentar from "../components/barisKomentar";
 import { TiArrowSortedUp, TiArrowSortedDown, TiArrowUnsorted } from "react-icons/ti";
-import Form from 'react-bootstrap/Form';
 import '../styles/komentar.css';
 import Penomoran from "../components/penomoran";
 
@@ -92,11 +91,14 @@ class Komentar extends Component {
     }
      
     // fungsi mengubah param untuk kebutuhan urutkan dan sortir
-    ubahParamKomentar = (param) => {
+    ubahParamKomentar = async(param) => {
+        if(this.state.urutkan !== param) {
+            await this.setState({sortir:""})
+        }
         if(param === "laporan") {
         this.state.sortir === ""
         ? this.setState(
-            {halaman: 1, urutkan: "laporan", sortir: "naik"}, 
+            {halaman: 1, urutkan: "laporan", sortir: "turun"}, 
             () => this.dapatKomentar()
             )
         : this.state.sortir === "turun"
@@ -111,7 +113,7 @@ class Komentar extends Component {
         } else if(param === "dibuat") {
         this.state.sortir === ""
         ? this.setState(
-            {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
+            {halaman: 1, urutkan: "dibuat", sortir: "turun"}, 
             () => this.dapatKomentar()
             )
         : this.state.sortir === "turun"
@@ -170,7 +172,7 @@ class Komentar extends Component {
             />
             <Container style={{marginTop:'50px', marginBottom:'10px'}}>
                 <h3 id='title'>Tabel Komentar {store.getState().namaKota}</h3>
-                <Form.Row style={{marginLeft:"13px", marginRight:"13px", marginTop:"20px"}}>
+                {/* <Form.Row style={{marginLeft:"13px", marginRight:"13px", marginTop:"20px"}}>
                     <Form.Group as={Col} controlId="formGridCity">
                         <Form.Control 
                             size="sm"
@@ -181,7 +183,7 @@ class Komentar extends Component {
                             onChange={event => this.filter(event)}
                         />
                     </Form.Group>
-                </Form.Row>
+                </Form.Row> */}
                 {this.state.memuat ? (
                     <div style={{textAlign:"center"}}>
                         <Spinner animation="grow" variant="success" />

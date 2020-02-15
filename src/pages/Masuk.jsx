@@ -129,7 +129,6 @@ class Masuk extends Component {
                         : <Button
                             variant="success"
                             style={{marginBottom:'30px'}}
-                            className="fadeIn fourth"
                             type="submit"
                             onClick={() => this.penangananMasuk()}
                             disabled={

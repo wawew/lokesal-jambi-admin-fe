@@ -80,11 +80,14 @@ class Keluhan extends Component {
     }
 
     // fungsi mengubah param untuk kebutuhan urutkan dan sortir
-    ubahParamKeluhan = (param) => {
+    ubahParamKeluhan = async(param) => {
+        if(this.state.urutkan !== param) {
+            await this.setState({sortir:""})
+        }
         if(param === "diperbarui") {
         this.state.sortir === ""
         ? this.setState(
-            {halaman: 1, urutkan: "diperbarui", sortir: "naik"}, 
+            {halaman: 1, urutkan: "diperbarui", sortir: "turun"}, 
             () => this.dapatKeluhan()
             )
         : this.state.sortir === "turun"
@@ -99,7 +102,7 @@ class Keluhan extends Component {
         } else if(param === "dibuat") {
         this.state.sortir === ""
         ? this.setState(
-            {halaman: 1, urutkan: "dibuat", sortir: "naik"}, 
+            {halaman: 1, urutkan: "dibuat", sortir: "turun"}, 
             () => this.dapatKeluhan()
             )
         : this.state.sortir === "turun"
@@ -114,7 +117,7 @@ class Keluhan extends Component {
         } else if(param === "dukungan") {
         this.state.sortir === ""
         ? this.setState(
-            {halaman: 1, urutkan: "dukungan", sortir: "naik"}, 
+            {halaman: 1, urutkan: "dukungan", sortir: "turun"}, 
             () => this.dapatKeluhan()
             )
         : this.state.sortir === "turun"
