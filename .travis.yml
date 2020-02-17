@@ -1,5 +1,7 @@
 sudo: enabled
-language: node
+language: node_js
+node_js:
+- node
 services:
 - docker
 os:
