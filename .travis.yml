@@ -1,7 +1,5 @@
 sudo: enabled
-language: node_js
-node_js:
-- node
+language: node
 services:
 - docker
 os:
@@ -15,6 +13,7 @@ branches:
   - release
 install:
 - npm install
+- npm install -g serve
 before_script:
 - openssl aes-256-cbc -K $encrypted_4b347bf83baa_key -iv $encrypted_4b347bf83baa_iv
   -in deploy_rsa.enc -out deploy_rsa -d
